@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AD Catalog Russia | Каталог рекламных площадок</title>
+    <!-- Подключаем Leaflet CSS для карты (бесплатно) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Шапка -->
+    <header class="header">
+        <div class="logo">🇷🇺 AD Catalog Russia</div>
+        <div class="search-box">
+            <input type="text" id="globalSearch" placeholder="Поиск: город, название, услуга...">
+        </div>
+        <a href="#" class="btn-primary">Добавить площадку</a>
+    </header>
+
+    <!-- Основной контейнер -->
+    <div class="main-container">
+        
+        <!-- Боковая панель фильтров -->
+        <aside class="sidebar">
+            <h3>Фильтры</h3>
+            
+            <div class="filter-group">
+                <label>Регион</label>
+                <select id="regionFilter">
+                    <option value="">Все регионы</option>
+                    <!-- Заполнится через JS -->
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Город</label>
+                <select id="cityFilter" disabled>
+                    <option value="">Сначала выберите регион</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Тип площадки</label>
+                <select id="typeFilter">
+                    <option value="">Все типы</option>
+                    <option value="platform">Площадки (Реклама)</option>
+                    <option value="agency">Агентства</option>
+                </select>
+            </div>
+
+            <div class="stats">
+                Найдено: <span id="countResult">0</span>
+            </div>
+            
+            <button id="resetFilters" class="btn-secondary">Сбросить</button>
+        </aside>
+
+        <!-- Область контента: Карта + Список -->
+        <main class="content">
+            <div class="view-controls">
+                <button id="viewMap" class="active">🗺️ Карта</button>
+                <button id="viewList"> Список</button>
+            </div>
+
+            <!-- Контейнер карты -->
+            <div id="map"></div>
+
+            <!-- Контейнер списка (скрыт по умолчанию) -->
+            <div id="listContainer" class="hidden">
+                <div id="cardsGrid" class="grid"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Подключаем Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Наш скрипт -->
+    <script src="script.js"></script>
+</body>
+</html>
