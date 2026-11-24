@@ -1,28 +1,20 @@
 [
   {
-    "id": 1,
-    "name": "Рекламное Агентство 'Вектор'",
-    "category": "Наружная реклама",
-    "city": "Москва",
-    "region": "Московская область",
-    "address": "ул. Ленина, д. 10",
-    "phone": "+7 (495) 123-45-67",
-    "website": "https://vector.ru",
-    "description": "Крупнейший оператор билбордов в ЦАО.",
-    "lat": 55.7558,
-    "lon": 37.6173
-  },
-  {
-    "id": 2,
-    "name": "Digital Media Group",
-    "category": "Интернет-реклама",
-    "city": "Санкт-Петербург",
-    "region": "Ленинградская область",
-    "address": "Невский пр., д. 50",
-    "phone": "+7 (812) 987-65-43",
-    "website": "https://dmg.spb.ru",
-    "description": "Контекстная и таргетированная реклама.",
-    "lat": 59.9343,
-    "lon": 30.3351
+    "name": 1,
+    "region": 2,
+    "city": 3,
+    "type": 4,
+    "specialization": 5,
+    "url": 6,
+    "price_from": 7,
+    "lat": 8,
+    "lng": 9,
+    "phone": 10,
+    "email": 11,
+    "audience_min": 12,
+    "audience_max": 13,
+    "social_links": 14,
+    "status": 15,
+    "notes": 16
   }
 ]
