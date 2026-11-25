@@ -11,21 +11,19 @@
         body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); }
         html { scroll-behavior: smooth; }
 
-        /* Шапка: логотип с «О проекте» под ним, растянутый поиск, кнопки справа */
+        /* Шапка: логотип с «О проектом» под ним, справа кнопки */
         .header { background: #fff; padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; gap: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); flex-wrap: wrap; }
-        .logo-block { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+        .logo-block { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
         .logo { font-weight: bold; font-size: 1.2rem; color: var(--primary); text-decoration: none; white-space: nowrap; }
-        .about-link { font-size: 0.85rem; color: #667; text-decoration: none; }
+        .about-link { font-size: 1.05rem; font-weight: 600; color: #445; text-decoration: none; }
         .about-link:hover { color: var(--primary); text-decoration: underline; }
-        .search-box { flex: 1; min-width: 200px; }
-        .search-box input { padding: 10px 15px; width: 100%; border: 1px solid var(--border); border-radius: 20px; font-size: 1rem; }
         .header-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
         .btn-primary { background: var(--primary); color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; display: inline-block; white-space: nowrap; }
         .btn-primary:hover { background: var(--primary-dark); }
         .btn-gold { background: var(--gold); color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; white-space: nowrap; }
         .btn-gold:hover { filter: brightness(0.92); }
 
-        /* Каталог: сайдбар + карта + список под картой */
+        /* Каталог: сайдбар + область карты */
         .main-container { display: flex; }
         .sidebar { width: 300px; background: #fff; border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 15px; flex-shrink: 0; }
         .filter-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
@@ -33,8 +31,16 @@
         .stats { margin-top: 20px; font-weight: bold; color: #666; }
         .btn-secondary { background: transparent; border: 1px solid var(--border); padding: 8px; border-radius: 6px; cursor: pointer; margin-top: 10px; }
         .map-area { flex: 1; }
+
+        /* Поиск: полоса прямо над картой, по всей ширине карты */
+        .search-over-map { padding: 10px 12px; background: var(--bg); }
+        .search-over-map input { width: 100%; padding: 10px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 1rem; background: #fff; }
+
         #map { width: 100%; height: 320px; display: block; }
-        .list-wrap { padding: 20px; }
+
+        /* Список: отдельное окно на три ряда карточек с прокруткой */
+        .list-scroll { max-height: 780px; overflow-y: auto; padding: 20px; background: var(--bg); border-top: 1px solid var(--border); }
+        .list-hint { text-align: center; font-size: 0.85rem; color: #889; margin: 0 0 14px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.2s; }
         .card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
@@ -71,6 +77,7 @@
             .main-container { flex-direction: column; }
             .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
             #map { height: 260px; }
+            .list-scroll { max-height: none; overflow: visible; }
             .header { padding: 12px 15px; }
         }
     </style>
@@ -82,12 +89,9 @@
             <a href="index.html" class="logo">🇷🇺 AD Catalog Russia</a>
             <a href="about.html" class="about-link">О проекте</a>
         </div>
-        <div class="search-box">
-            <input type="text" id="globalSearch" placeholder="Поиск: город, название, услуга...">
-        </div>
         <div class="header-buttons">
             <a href="about.html#premium" class="btn-gold">Заявка на премиум</a>
-            <a href="#addForm" class="btn-primary">Добавить площадку</a>
+            <a href="#addForm" class="btn-primary">Добавить площадку/агентство</a>
         </div>
     </header>
 
@@ -111,8 +115,12 @@
         </aside>
 
         <main class="map-area">
+            <div class="search-over-map">
+                <input type="text" id="globalSearch" placeholder="Поиск: город, название, услуга...">
+            </div>
             <div id="map"></div>
-            <div class="list-wrap">
+            <div class="list-scroll">
+                <p class="list-hint">Прокручивайте список вниз — всего площадок: <span id="listCountHint">0</span></p>
                 <div id="cardsGrid" class="grid"></div>
             </div>
         </main>
@@ -197,11 +205,8 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // ===== НАСТРОЙКИ =====
-        // FORM_URL — форма добавления площадки (Google Forms)
-        // PAY_URL — ссылка на оплату подписки в ЮKassa.
-        // Вставьте вашу ссылку оплаты между кавычками вместо заглушки.
         const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSe8ChbFttTHq3D-BTbEJWTUYjF1aM1ezZVIo1Fas2ufZQ9qaA/viewform?embedded=true';
-        const PAY_URL  = 'ВСТАВЬТЕ_ССЫЛКУ_ЮКАССЫ';
+        const PAY_URL  = 'https://yookassa.ru/my/i/awaYcnS4WmQy/l-';
 
         const API_URL = 'https://script.google.com/macros/s/AKfycbzVrZlaeYBvEnktjSmYkIAwlpFuTPO_mtQoLN0M2USVIkcGLtBU-vCd5GneRWI55McD/exec';
         const FALLBACK_URL = 'data/catalog.json';
@@ -355,6 +360,7 @@
             });
 
             document.getElementById('countResult').textContent = filtered.length;
+            document.getElementById('listCountHint').textContent = filtered.length;
             renderResults(filtered);
         }
 
@@ -435,16 +441,8 @@
             frame.setAttribute('loading', 'lazy');
             document.getElementById('formWrap').appendChild(frame);
 
-            // Кнопка покупки подписки
-            const buyBtn = document.getElementById('buyBtn');
-            if (PAY_URL && !PAY_URL.includes('ВСТАВЬТЕ')) {
-                buyBtn.href = PAY_URL;
-            } else {
-                buyBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    alert('Оплата подключается — напишите нам на ad-catalog-ru@yandex.ru');
-                });
-            }
+            // Кнопка покупки подписки ведёт на ЮKassa
+            document.getElementById('buyBtn').href = PAY_URL;
         }
     </script>
 </body>
