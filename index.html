@@ -4,26 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AD Catalog Russia | Каталог рекламных площадок</title>
-    <!-- Подключаем Leaflet CSS для карты -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root { --primary: #005bbb; --bg: #f4f7f6; --sidebar-bg: #ffffff; --text: #333; --border: #e0e0e0; }
-        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; }
-        .header { background: #fff; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); z-index: 1000; }
-        .logo { font-weight: bold; font-size: 1.2rem; color: var(--primary); }
-        .search-box input { padding: 10px 15px; width: 300px; border: 1px solid var(--border); border-radius: 20px; font-size: 1rem; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); }
+        .header { background: #fff; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); z-index: 1000; gap: 15px; flex-wrap: wrap; }
+        .logo { font-weight: bold; font-size: 1.2rem; color: var(--primary); text-decoration: none; }
+        .nav-links { display: flex; gap: 15px; }
+        .nav-links a { color: var(--primary); text-decoration: none; font-weight: 600; }
+        .nav-links a:hover { text-decoration: underline; }
+        .search-box input { padding: 10px 15px; width: 300px; max-width: 100%; border: 1px solid var(--border); border-radius: 20px; font-size: 1rem; }
         .btn-primary { background: var(--primary); color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; }
-        .main-container { display: flex; flex: 1; overflow: hidden; }
-        .sidebar { width: 300px; background: var(--sidebar-bg); border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
+        .main-container { display: flex; min-height: calc(100vh - 64px); }
+        .sidebar { width: 300px; background: var(--sidebar-bg); border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 15px; }
         .filter-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
         .filter-group select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: #fff; }
         .stats { margin-top: 20px; font-weight: bold; color: #666; }
         .btn-secondary { background: transparent; border: 1px solid var(--border); padding: 8px; border-radius: 6px; cursor: pointer; margin-top: 10px; }
-        .content { flex: 1; position: relative; display: flex; flex-direction: column; }
+        .map-area { flex: 1; position: relative; display: flex; flex-direction: column; }
         .view-controls { position: absolute; top: 10px; right: 20px; z-index: 500; background: white; padding: 5px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .view-controls button { border: none; background: transparent; padding: 8px 15px; cursor: pointer; font-weight: bold; color: #666; }
         .view-controls button.active { background: var(--primary); color: white; border-radius: 6px; }
-        #map { width: 100%; height: 100%; display: block; }
+        #map { width: 100%; height: 100%; min-height: 500px; display: block; }
         #listContainer { padding: 20px; overflow-y: auto; height: 100%; display: none; }
         #listContainer:not(.hidden) { display: block; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
@@ -33,16 +35,39 @@
         .card .meta { font-size: 0.85rem; color: #666; margin-bottom: 10px; }
         .card .price { font-weight: bold; color: #2e7d32; }
         .hidden { display: none !important; }
-        @media (max-width: 768px) { .main-container { flex-direction: column; } .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border); max-height: 200px; } .header { flex-wrap: wrap; gap: 10px; } .search-box input { width: 100%; order: 3; } }
+
+        /* Секции под каталогом: выгоды, форма, FAQ, контакты */
+        .info-section { max-width: 1100px; margin: 40px auto; padding: 0 16px; }
+        .info-section h2 { text-align: center; margin-bottom: 20px; }
+        .benefits { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .benefit { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+        .benefit b { display: block; margin-bottom: 6px; color: var(--primary); }
+        .form-frame { width: 100%; min-height: 480px; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
+        .form-disclaimer { font-size: 13px; color: #667; margin-top: 8px; text-align: center; }
+        .faq details { background: #fff; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; padding: 12px 16px; }
+        .faq summary { font-weight: 600; cursor: pointer; }
+        .faq p { margin: 10px 0 0; color: #444; }
+        .contacts { text-align: center; color: #555; padding-bottom: 40px; }
+        .contacts a { color: var(--primary); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .main-container { flex-direction: column; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+            #map { min-height: 400px; }
+        }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <div class="logo">🇷🇺 AD Catalog Russia</div>
+        <a href="index.html" class="logo">🇷🇺 AD Catalog Russia</a>
         <div class="search-box">
             <input type="text" id="globalSearch" placeholder="Поиск: город, название, услуга...">
         </div>
+        <nav class="nav-links">
+            <a href="about.html">О проекте</a>
+            <a href="examples.html">Примеры</a>
+        </nav>
         <a href="#" class="btn-primary">Добавить площадку</a>
     </header>
 
@@ -59,20 +84,16 @@
             </div>
             <div class="filter-group">
                 <label>Тип площадки</label>
-                <select id="typeFilter">
-                    <option value="">Все типы</option>
-                    <option value="platform">Площадки (Реклама)</option>
-                    <option value="agency">Агентства</option>
-                </select>
+                <select id="typeFilter"><option value="">Все типы</option></select>
             </div>
             <div class="stats">Найдено: <span id="countResult">0</span></div>
             <button id="resetFilters" class="btn-secondary">Сбросить</button>
         </aside>
 
-        <main class="content">
+        <main class="map-area">
             <div class="view-controls">
                 <button id="viewMap" class="active">🗺️ Карта</button>
-                <button id="viewList"> Список</button>
+                <button id="viewList">Список</button>
             </div>
             <div id="map"></div>
             <div id="listContainer" class="hidden">
@@ -81,8 +102,30 @@
         </main>
     </div>
 
+    <!-- Блоки из ad-catalog: выгоды, форма, FAQ, контакты -->
+    <div id="benefitsSection" class="info-section hidden">
+        <h2>Что вы получаете бесплатно</h2>
+        <div class="benefits" id="benefitsGrid"></div>
+    </div>
+
+    <div id="formSection" class="info-section hidden">
+        <h2>Заявка на тест каталога</h2>
+        <div id="formWrap"></div>
+    </div>
+
+    <div id="faqSection" class="info-section hidden">
+        <h2>Частые вопросы</h2>
+        <div class="faq" id="faqList"></div>
+    </div>
+
+    <div id="contactsSection" class="info-section contacts hidden"></div>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
+        // ===== ДАННЫЕ =====
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzVrZlaeYBvEnktjSmYkIAwlpFuTPO_mtQoLN0M2USVIkcGLtBU-vCd5GneRWI55McD/exec';
+        const FALLBACK_URL = 'data/catalog.json';
+
         let allData = [];
         let map;
         let markers = [];
@@ -91,41 +134,68 @@
             fetchData();
             initMap();
             setupEventListeners();
+            loadConfigSections();
         });
 
+        // ===== ЗАГРУЗКА ДАННЫХ =====
         async function fetchData() {
             try {
-                const response = await fetch('data/catalog.json');
-                if (!response.ok) throw new Error('Файл данных не найден');
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error('API недоступен');
                 allData = await response.json();
-                console.log(`Загружено ${allData.length} записей`);
-                populateFilters();
-                renderResults(allData);
-            } catch (error) {
-                console.error('Ошибка загрузки:', error);
-                document.getElementById('countResult').textContent = 'Ошибка загрузки данных';
-                document.getElementById('regionFilter').innerHTML = '<option>Ошибка загрузки</option>';
+                if (!Array.isArray(allData) || !allData.length) throw new Error('Пустой ответ API');
+                console.log(`Загружено ${allData.length} записей из таблицы`);
+                initFiltersAndRender();
+            } catch (e) {
+                console.warn('Таблица недоступна, пробую локальный файл:', e);
+                try {
+                    const response = await fetch(FALLBACK_URL);
+                    allData = await response.json();
+                    console.log(`Загружено ${allData.length} записей из локального файла`);
+                    initFiltersAndRender();
+                } catch (err) {
+                    console.error('Ошибка загрузки:', err);
+                    document.getElementById('countResult').textContent = 'Ошибка загрузки данных';
+                    document.getElementById('regionFilter').innerHTML = '<option>Ошибка загрузки</option>';
+                }
             }
         }
 
+        function initFiltersAndRender() {
+            populateFilters();
+            renderResults(allData);
+        }
+
+        // ===== КАРТА =====
         function initMap() {
-            map = L.map('map').setView([55.75, 37.61], 5); 
+            map = L.map('map').setView([55.75, 37.61], 5);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
         }
 
+        // ===== ФИЛЬТРЫ =====
         function populateFilters() {
             const regionSelect = document.getElementById('regionFilter');
             regionSelect.innerHTML = '<option value="">Все регионы</option>';
-            const regions = [...new Set(allData.map(item => item.region))].sort();
+            const regions = [...new Set(allData.map(item => item.region).filter(Boolean))].sort();
             regions.forEach(region => {
                 const option = document.createElement('option');
                 option.value = region;
                 option.textContent = region;
                 regionSelect.appendChild(option);
             });
-            regionSelect.addEventListener('change', updateCities);
+
+            // Тип площадки берём из поля category (Площадка / Агентство)
+            const typeSelect = document.getElementById('typeFilter');
+            typeSelect.innerHTML = '<option value="">Все типы</option>';
+            const types = [...new Set(allData.map(item => item.category).filter(Boolean))].sort();
+            types.forEach(t => {
+                const option = document.createElement('option');
+                option.value = t;
+                option.textContent = t;
+                typeSelect.appendChild(option);
+            });
         }
 
         function updateCities() {
@@ -133,7 +203,7 @@
             const citySelect = document.getElementById('cityFilter');
             citySelect.innerHTML = '<option value="">Все города</option>';
             if (region) {
-                const cities = [...new Set(allData.filter(item => item.region === region).map(item => item.city))].sort();
+                const cities = [...new Set(allData.filter(item => item.region === region).map(item => item.city).filter(Boolean))].sort();
                 cities.forEach(city => {
                     const option = document.createElement('option');
                     option.value = city;
@@ -148,6 +218,7 @@
         }
 
         function setupEventListeners() {
+            document.getElementById('regionFilter').addEventListener('change', updateCities);
             document.getElementById('cityFilter').addEventListener('change', applyFilters);
             document.getElementById('typeFilter').addEventListener('change', applyFilters);
             document.getElementById('globalSearch').addEventListener('input', applyFilters);
@@ -160,13 +231,18 @@
             const region = document.getElementById('regionFilter').value;
             const city = document.getElementById('cityFilter').value;
             const type = document.getElementById('typeFilter').value;
-            const search = document.getElementById('globalSearch').value.toLowerCase();
+            const search = document.getElementById('globalSearch').value.toLowerCase().trim();
 
             const filtered = allData.filter(item => {
                 const matchRegion = region ? item.region === region : true;
                 const matchCity = city ? item.city === city : true;
-                const matchType = type ? item.type === type : true;
-                const matchSearch = search ? (item.name.toLowerCase().includes(search) || item.city.toLowerCase().includes(search) || (item.specialization && item.specialization.toLowerCase().includes(search))) : true;
+                const matchType = type ? item.category === type : true;
+                const matchSearch = search ? (
+                    String(item.name || '').toLowerCase().includes(search) ||
+                    String(item.city || '').toLowerCase().includes(search) ||
+                    String(item.specialization || '').toLowerCase().includes(search) ||
+                    String(item.type || '').toLowerCase().includes(search)
+                ) : true;
                 return matchRegion && matchCity && matchType && matchSearch;
             });
 
@@ -191,13 +267,14 @@
             if (view === 'map') {
                 mapDiv.style.display = 'block';
                 listDiv.classList.add('hidden');
-                if(map) map.invalidateSize();
+                if (map) map.invalidateSize();
             } else {
                 mapDiv.style.display = 'none';
                 listDiv.classList.remove('hidden');
             }
         }
 
+        // ===== РЕНДЕР =====
         function renderResults(data) {
             markers.forEach(m => map.removeLayer(m));
             markers = [];
@@ -205,38 +282,130 @@
             grid.innerHTML = '';
 
             data.forEach(item => {
-                if (item.lat && item.lng) {
-                    const marker = L.marker([item.lat, item.lng]).addTo(map);
-                    const popupContent = `<b>${item.name}</b><br>${item.city}, ${item.region}<br><small>${item.type === 'platform' ? 'Площадка' : 'Агентство'}</small><br><a href="${item.url}" target="_blank">Перейти на сайт</a>`;
+                const lat = parseFloat(String(item.lat).replace(',', '.'));
+                const lng = parseFloat(String(item.lng).replace(',', '.'));
+                const url = String(item.url || '').trim();
+
+                if (lat && lng && url) {
+                    const marker = L.marker([lat, lng]).addTo(map);
+                    const popupContent = `<b>${item.name || 'Без названия'}</b><br>${item.city || ''}, ${item.region || ''}<br><small>${item.category || ''}</small><br><a href="${url}" target="_blank">Перейти на сайт</a>`;
                     marker.bindPopup(popupContent);
                     markers.push(marker);
                 }
 
                 const card = document.createElement('div');
                 card.className = 'card';
+
                 let audienceText = '';
-                if (item.audience_min && item.audience_max) {
-                    audienceText = `<div class="meta">👥 Охват: ${item.audience_min.toLocaleString()} - ${item.audience_max.toLocaleString()}</div>`;
+                const aMin = Number(item.audience_min);
+                const aMax = Number(item.audience_max);
+                if (aMin && aMax) {
+                    audienceText = `<div class="meta">👥 Охват: ${aMin.toLocaleString('ru-RU')} - ${aMax.toLocaleString('ru-RU')}</div>`;
                 }
+
                 let phoneBtn = '';
                 if (item.phone) {
-                    phoneBtn = `<a href="tel:${item.phone.replace(/\D/g,'')}" class="btn-secondary" style="display:inline-block; font-size:0.8rem; padding:5px; margin-top:5px; text-decoration:none;">📞 Позвонить</a>`;
+                    const cleanPhone = String(item.phone).replace(/\D/g, '');
+                    phoneBtn = `<a href="tel:+${cleanPhone}" class="btn-secondary" style="display:inline-block; font-size:0.8rem; padding:5px; margin-top:5px; text-decoration:none;">📞 Позвонить</a>`;
+                }
+
+                let socialBtn = '';
+                if (String(item.social_links || '').trim()) {
+                    socialBtn = `<a href="${item.social_links}" target="_blank" class="btn-secondary" style="display:inline-block; font-size:0.8rem; padding:5px; margin-top:5px; text-decoration:none;">💬 Соцсеть</a>`;
                 }
 
                 card.innerHTML = `
-                    <h4>${item.name}</h4>
-                    <div class="meta"> ${item.city}, ${item.region}</div>
+                    <h4>${item.name || 'Без названия'}</h4>
+                    <div class="meta">📍 ${item.city || ''}, ${item.region || ''}</div>
                     <div class="meta"> ${item.specialization || 'Нет описания'}</div>
                     ${audienceText}
                     ${item.price_from ? `<div class="price">от ${item.price_from} ₽</div>` : ''}
                     <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
-                        <a href="${item.url}" target="_blank" class="btn-primary" style="flex:1; text-align:center; font-size:0.9rem; padding:8px; border-radius:6px; text-decoration:none;">Сайт</a>
+                        ${url ? `<a href="${url}" target="_blank" class="btn-primary" style="flex:1; text-align:center; font-size:0.9rem; padding:8px; border-radius:6px; text-decoration:none;">Сайт</a>` : ''}
                         ${phoneBtn}
+                        ${socialBtn}
                     </div>
-                    ${item.status === 'verified' ? '<div style="color:green; font-size:0.8rem; margin-top:5px;">✅ Проверено</div>' : ''}
+                    ${item.status === 'Проверено' ? '<div style="color:green; font-size:0.8rem; margin-top:5px;">✅ Проверено</div>' : ''}
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        // ===== СЕКЦИИ ИЗ CONFIG.JSON (выгоды, форма, FAQ, контакты) =====
+        function loadConfigSections() {
+            fetch('config.json')
+                .then(r => r.json())
+                .then(cfg => {
+                    renderBenefits(cfg);
+                    renderForm(cfg);
+                    renderFaq(cfg);
+                    renderContacts(cfg);
+                })
+                .catch(e => console.warn('config.json не найден — секции скрыты:', e));
+        }
+
+        function renderBenefits(cfg) {
+            const list = cfg.benefits || [];
+            if (!list.length) return;
+            const grid = document.getElementById('benefitsGrid');
+            list.forEach(b => {
+                const title = typeof b === 'string' ? b : (b.title || '');
+                const text = typeof b === 'string' ? '' : (b.text || '');
+                const div = document.createElement('div');
+                div.className = 'benefit';
+                const strong = document.createElement('b');
+                strong.textContent = title;
+                const span = document.createElement('span');
+                span.textContent = text;
+                div.appendChild(strong);
+                div.appendChild(span);
+                grid.appendChild(div);
+            });
+            document.getElementById('benefitsSection').classList.remove('hidden');
+        }
+
+        function renderForm(cfg) {
+            const formUrl = (cfg.form && cfg.form.url) || '';
+            if (!formUrl) return;
+            const wrap = document.getElementById('formWrap');
+            const frame = document.createElement('iframe');
+            frame.className = 'form-frame';
+            frame.src = formUrl;
+            frame.title = 'Форма заявки';
+            wrap.appendChild(frame);
+            const disc = document.createElement('p');
+            disc.className = 'form-disclaimer';
+            disc.textContent = (cfg.form && cfg.form.disclaimer) || 'Отправляя форму, вы соглашаетесь на обработку персональных данных.';
+            wrap.appendChild(disc);
+            document.getElementById('formSection').classList.remove('hidden');
+        }
+
+        function renderFaq(cfg) {
+            const list = cfg.faq || [];
+            if (!list.length) return;
+            const wrap = document.getElementById('faqList');
+            list.forEach(item => {
+                const details = document.createElement('details');
+                const summary = document.createElement('summary');
+                summary.textContent = item.q || item.question || '';
+                const p = document.createElement('p');
+                p.textContent = item.a || item.answer || '';
+                details.appendChild(summary);
+                details.appendChild(p);
+                wrap.appendChild(details);
+            });
+            document.getElementById('faqSection').classList.remove('hidden');
+        }
+
+        function renderContacts(cfg) {
+            const c = cfg.contacts || {};
+            if (!c.email && !c.telegram) return;
+            const wrap = document.getElementById('contactsSection');
+            let html = '<h2>Контакты</h2>';
+            if (c.email) html += `<p>Почта: <a href="mailto:${c.email}">${c.email}</a></p>`;
+            if (c.telegram) html += `<p>Telegram: <a href="${c.telegram}" target="_blank">${c.telegram.replace(/^https?:\/\//, '')}</a></p>`;
+            wrap.innerHTML = html;
+            wrap.classList.remove('hidden');
         }
     </script>
 </body>
