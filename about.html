@@ -5,69 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>О проекте - Каталог рекламных площадок</title>
     <style>
-        /* Наследуем базовые стили для единообразия */
         html { scroll-behavior: smooth; }
         body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 20px; color: #222; background: #fff; }
 
-        /* Шапка страницы */
         .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; padding-bottom: 1rem; border-bottom: 2px solid #eee; flex-wrap: wrap; gap: 10px; }
         .page-header h1 { font-size: 2rem; margin: 0; color: #005bbb; }
         .btn-back { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: #f0f0f0; color: #333; text-decoration: none; border-radius: 6px; font-weight: bold; transition: all 0.3s; }
         .btn-back:hover { background: #e0e0e0; transform: translateX(-3px); }
 
-        /* Секции контента */
         section { margin-bottom: 3rem; }
         h2 { font-size: 1.5rem; color: #333; margin-bottom: 1rem; border-left: 4px solid #005bbb; padding-left: 15px; }
         p { margin-bottom: 1rem; color: #444; font-size: 1.05rem; }
 
-        /* Шаги «Как это работает» */
         .steps { counter-reset: step; margin: 20px 0; padding: 0; list-style: none; }
         .steps li { counter-increment: step; position: relative; padding: 14px 16px 14px 58px; margin-bottom: 10px; background: #f8f9fa; border: 1px solid #eee; border-radius: 8px; color: #444; }
         .steps li::before { content: counter(step); position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background: #005bbb; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
 
-        /* Словарь терминов */
         .glossary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
         .term-card { background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #eee; }
         .term-card h3 { margin-top: 0; color: #005bbb; font-size: 1.1rem; }
         .term-card p { margin: 0; font-size: 0.95rem; color: #555; }
 
-        /* Бесплатно vs Premium */
-        .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0 30px; }
-        .plan-card { background: #f8f9fa; border: 1px solid #eee; border-radius: 12px; padding: 24px; }
-        .plan-card h3 { margin: 0 0 4px; color: #005bbb; }
-        .plan-card .plan-sub { color: #667; font-size: 0.9rem; margin: 0 0 12px; }
-        .plan-card .price-tag { font-size: 1.4rem; font-weight: bold; margin-bottom: 14px; color: #222; }
-        .plan-card ul { margin: 0; padding-left: 20px; color: #444; font-size: 0.98rem; }
-        .plan-card li { margin-bottom: 8px; }
-        .plan-premium { border: 2px solid #d4a017; background: #fffdf5; position: relative; }
-        .premium-badge { position: absolute; top: -12px; right: 16px; background: #d4a017; color: #fff; font-size: 0.75rem; font-weight: bold; padding: 4px 10px; border-radius: 12px; }
+        /* Что бесплатно: растянуто на всю ширину, как синее окно */
+        .free-block { background: #f8f9fa; border: 1px solid #eee; border-radius: 12px; padding: 32px 40px; margin: 20px 0; }
+        .free-block h2 { border-left-color: #005bbb; margin-top: 0; }
+        .free-list { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 10px 30px; }
+        .free-list li { position: relative; padding-left: 30px; font-size: 1.05rem; color: #444; }
+        .free-list li::before { content: "✓"; position: absolute; left: 0; top: 0; font-weight: bold; color: #16a34a; }
 
-        /* Блок Premium (Выделенный) */
+        /* Синий блок Premium */
         .premium-block { background: linear-gradient(135deg, #005bbb 0%, #004a99 100%); color: white; padding: 40px; border-radius: 12px; margin: 40px 0; box-shadow: 0 10px 30px rgba(0,91,187,0.2); }
         .premium-block h2 { color: white; border-left-color: #fff; }
         .premium-block p { color: rgba(255,255,255,0.9); }
         .premium-list { list-style: none; padding: 0; margin: 20px 0; }
         .premium-list li { position: relative; padding-left: 30px; margin-bottom: 12px; font-size: 1.1rem; }
         .premium-list li::before { content: "✓"; position: absolute; left: 0; top: 0; font-weight: bold; color: #4ade80; }
-        .premium-buttons { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 20px; }
 
-        .btn-premium { display: inline-block; padding: 15px 30px; background: #fff; color: #005bbb; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; margin-top: 20px; transition: transform 0.2s; }
-        .premium-buttons .btn-premium { margin-top: 0; }
+        .btn-premium { display: inline-block; padding: 15px 30px; background: #fff; color: #005bbb; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; margin-top: 10px; transition: transform 0.2s; }
         .btn-premium:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .btn-gold { display: inline-block; padding: 15px 30px; background: #d4a017; color: #fff; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; transition: transform 0.2s; }
-        .btn-gold:hover { transform: scale(1.05); filter: brightness(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .premium-note { font-size: 0.9rem; color: rgba(255,255,255,0.75); margin-top: 14px; }
 
-        /* FAQ */
         .faq details { background: #f8f9fa; border: 1px solid #eee; border-radius: 10px; margin-bottom: 8px; padding: 12px 16px; }
         .faq summary { font-weight: 600; cursor: pointer; color: #333; }
         .faq p { margin: 10px 0 0; color: #444; font-size: 1rem; }
 
-        /* Форма */
         .form-wrapper { max-width: 640px; margin: 0 auto; border: 1px solid #ddd; border-radius: 12px; overflow: hidden; background: #fff; }
         iframe { width: 100%; height: 950px; border: none; }
 
-        /* Контакты и футер */
         .contacts { text-align: center; color: #555; }
         .contacts a { color: #005bbb; text-decoration: none; }
         footer { text-align: center; color: #889; font-size: 0.85rem; padding: 20px 0 10px; border-top: 1px solid #eee; margin-top: 40px; }
@@ -76,7 +60,7 @@
             body { padding: 15px; }
             .page-header { flex-direction: column; align-items: flex-start; gap: 15px; }
             .btn-back { width: 100%; justify-content: center; }
-            .premium-block { padding: 25px; }
+            .premium-block, .free-block { padding: 25px; }
             iframe { height: 1200px; }
         }
     </style>
@@ -142,38 +126,21 @@
         </div>
     </section>
 
-    <section>
+    <!-- Что бесплатно: одно окно, без карточек -->
+    <section class="free-block">
         <h2>Что бесплатно, а что платно</h2>
-        <div class="plans-grid">
-            <div class="plan-card">
-                <h3>Бесплатно</h3>
-                <p class="plan-sub">Для разовых закупок рекламы</p>
-                <div class="price-tag">0 ₽</div>
-                <ul>
-                    <li>Полный доступ к каталогу и контактам</li>
-                    <li>Поиск с синонимами, фильтры и карта</li>
-                    <li>UTM-метки для честной аналитики</li>
-                    <li>Статус «Проверено» у площадок</li>
-                </ul>
-            </div>
-            <div class="plan-card plan-premium">
-                <div class="premium-badge">Premium</div>
-                <h3>Premium</h3>
-                <p class="plan-sub">Для агентств и регулярных закупок</p>
-                <div class="price-tag">от 990 ₽/мес</div>
-                <ul>
-                    <li>Кампания под ключ по выбранным регионам</li>
-                    <li>Глубокая аналитика переходов за 60–90 дней</li>
-                    <li>Технический и коммерческий аудит площадки</li>
-                    <li>Расширенные фильтры: охваты, ЦА, цены</li>
-                    <li>Экспорт базы контактов в Excel/CSV</li>
-                    <li>Приоритетная поддержка и помощь в переговорах</li>
-                </ul>
-            </div>
-        </div>
+        <p>Базовый доступ к каталогу открыт для всех — без регистрации и оплаты, навсегда.</p>
+        <ul class="free-list">
+            <li>Полный доступ к каталогу и контактам площадок</li>
+            <li>Поиск с синонимами, фильтры по региону, городу и типу</li>
+            <li>Карта площадок по регионам России</li>
+            <li>Статус «Проверено» у площадок</li>
+            <li>UTM-метки для честной аналитики</li>
+        </ul>
     </section>
 
-    <div class="premium-block">
+    <!-- Синий блок Premium -->
+    <div class="premium-block" id="premium">
         <h2>Что дает подписка Premium?</h2>
         <p>Бесплатная версия помогает найти контакты. Premium-версия помогает <strong>не слить бюджет</strong> и масштабировать результат.</p>
         <ul class="premium-list">
@@ -184,11 +151,8 @@
             <li>Экспорт базы контактов в Excel/CSV для вашей CRM.</li>
             <li>Приоритетная поддержка и помощь в переговорах с площадками.</li>
         </ul>
-        <div class="premium-buttons">
-            <a id="buyBtn" href="#" class="btn-gold" target="_blank" rel="noopener">Купить подписку</a>
-            <a href="#form-section" class="btn-premium">Оформить заявку на Premium</a>
-        </div>
-        <p class="premium-note">Оплата проходит на защищённой странице ЮKassa. После оплаты мы свяжемся с вами в течение 24 часов и откроем доступ.</p>
+        <a href="#form-section" class="btn-premium">Оформить премиум</a>
+        <p class="premium-note">Оставьте заявку — мы свяжемся с вами в течение 24 часов, оформим подписку и откроем доступ.</p>
     </div>
 
     <section>
@@ -203,8 +167,8 @@
                 <p>Базовый доступ к каталогу и контактам бесплатен навсегда. Аналитика, аудит площадок и кампании под ключ входят в подписку Premium.</p>
             </details>
             <details>
-                <summary>Как оплатить Premium?</summary>
-                <p>Нажмите «Купить подписку» — оплата проходит на защищённой странице ЮKassa картой или другим удобным способом. Доступ открываем в течение 24 часов после оплаты.</p>
+                <summary>Как оформить Premium?</summary>
+                <p>Нажмите «Оформить премиум» в синем блоке — попадёте на форму заявки. Мы свяжемся с вами, подтвердим детали и вышлем ссылку на оплату. Доступ открываем в течение 24 часов.</p>
             </details>
             <details>
                 <summary>Как проходит кампания под ключ?</summary>
@@ -236,20 +200,5 @@
 
     <footer>AD Catalog Russia — каталог рекламных площадок и агентств России</footer>
 
-    <script>
-        // Ссылка на оплату в ЮKassa. Вставьте сюда ту же ссылку,
-        // что и в index.html (строка const PAY_URL).
-        const PAY_URL = 'https://yookassa.ru/my/i/awaYcnS4WmQy/l';
-
-        const buyBtn = document.getElementById('buyBtn');
-        if (PAY_URL && !PAY_URL.includes('ВСТАВЬТЕ')) {
-            buyBtn.href = PAY_URL;
-        } else {
-            buyBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                alert('Оплата подключается — напишите нам на ad-catalog-ru@yandex.ru');
-            });
-        }
-    </script>
 </body>
 </html>
