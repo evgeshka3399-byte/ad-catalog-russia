@@ -6,52 +6,46 @@
     <title>AD Catalog Russia | Каталог рекламных площадок</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root { --primary: #005bbb; --primary-dark: #004a99; --gold: #d4a017; --bg: #f4f7f6; --sidebar-bg: #ffffff; --text: #333; --border: #e0e0e0; }
+        :root { --primary: #005bbb; --primary-dark: #004a99; --gold: #d4a017; --bg: #f4f7f6; --text: #333; --border: #e0e0e0; }
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); }
-        .header { background: #fff; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); gap: 15px; flex-wrap: wrap; }
-        .logo { font-weight: bold; font-size: 1.2rem; color: var(--primary); text-decoration: none; }
-        .nav-links { display: flex; gap: 15px; }
-        .nav-links a { color: var(--primary); text-decoration: none; font-weight: 600; }
-        .nav-links a:hover { text-decoration: underline; }
-        .search-box input { padding: 10px 15px; width: 280px; max-width: 100%; border: 1px solid var(--border); border-radius: 20px; font-size: 1rem; }
-        .btn-primary { background: var(--primary); color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; display: inline-block; }
-        .btn-primary:hover { background: var(--primary-dark); }
-        .btn-gold { background: var(--gold); color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; }
-        .btn-gold:hover { filter: brightness(0.92); }
         html { scroll-behavior: smooth; }
 
-        /* Каталог: сайдбар + область карты */
+        /* Шапка: логотип с «О проекте» под ним, растянутый поиск, кнопки справа */
+        .header { background: #fff; padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; gap: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); flex-wrap: wrap; }
+        .logo-block { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+        .logo { font-weight: bold; font-size: 1.2rem; color: var(--primary); text-decoration: none; white-space: nowrap; }
+        .about-link { font-size: 0.85rem; color: #667; text-decoration: none; }
+        .about-link:hover { color: var(--primary); text-decoration: underline; }
+        .search-box { flex: 1; min-width: 200px; }
+        .search-box input { padding: 10px 15px; width: 100%; border: 1px solid var(--border); border-radius: 20px; font-size: 1rem; }
+        .header-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-primary { background: var(--primary); color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; display: inline-block; white-space: nowrap; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-gold { background: var(--gold); color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; white-space: nowrap; }
+        .btn-gold:hover { filter: brightness(0.92); }
+
+        /* Каталог: сайдбар + карта + список под картой */
         .main-container { display: flex; }
-        .sidebar { width: 300px; background: var(--sidebar-bg); border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 15px; flex-shrink: 0; }
+        .sidebar { width: 300px; background: #fff; border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 15px; flex-shrink: 0; }
         .filter-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
         .filter-group select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: #fff; }
         .stats { margin-top: 20px; font-weight: bold; color: #666; }
         .btn-secondary { background: transparent; border: 1px solid var(--border); padding: 8px; border-radius: 6px; cursor: pointer; margin-top: 10px; }
-        .map-area { flex: 1; position: relative; padding-top: 50px; }
-        .view-controls { position: absolute; top: 10px; right: 20px; z-index: 500; background: white; padding: 5px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .view-controls button { border: none; background: transparent; padding: 8px 15px; cursor: pointer; font-weight: bold; color: #666; }
-        .view-controls button.active { background: var(--primary); color: white; border-radius: 6px; }
-        #map { width: 100%; height: 420px; display: block; }
-        #listContainer { padding: 0 0 10px; display: none; }
-        #listContainer:not(.hidden) { display: block; }
+        .map-area { flex: 1; }
+        #map { width: 100%; height: 320px; display: block; }
+        .list-wrap { padding: 20px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.2s; }
         .card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .card h4 { margin: 0 0 5px 0; color: var(--primary); }
         .card .meta { font-size: 0.85rem; color: #666; margin-bottom: 10px; }
         .card .price { font-weight: bold; color: #2e7d32; }
-        .hidden { display: none !important; }
 
         /* Секции под каталогом */
         .info-section { max-width: 1100px; margin: 40px auto; padding: 0 16px; }
         .info-section h2 { text-align: center; margin-bottom: 8px; }
         .info-section .subtitle { text-align: center; color: #667; margin-top: 0; margin-bottom: 24px; }
-        .benefits { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-        .benefit { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
-        .benefit b { display: block; margin-bottom: 6px; color: var(--primary); }
-
-        /* Бесплатно vs Premium */
         .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; }
         .plan { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
         .plan.premium { border: 2px solid var(--gold); position: relative; }
@@ -76,23 +70,25 @@
         @media (max-width: 768px) {
             .main-container { flex-direction: column; }
             .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
-            #map { height: 300px; }
-            .search-box input { width: 100%; }
+            #map { height: 260px; }
+            .header { padding: 12px 15px; }
         }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <a href="index.html" class="logo">🇷🇺 AD Catalog Russia</a>
+        <div class="logo-block">
+            <a href="index.html" class="logo">🇷🇺 AD Catalog Russia</a>
+            <a href="about.html" class="about-link">О проекте</a>
+        </div>
         <div class="search-box">
             <input type="text" id="globalSearch" placeholder="Поиск: город, название, услуга...">
         </div>
-        <nav class="nav-links">
-            <a href="about.html">О проекте</a>
-            <a href="examples.html">Примеры</a>
-        </nav>
-        <a href="#addForm" class="btn-primary">Добавить площадку</a>
+        <div class="header-buttons">
+            <a href="about.html#premium" class="btn-gold">Заявка на премиум</a>
+            <a href="#addForm" class="btn-primary">Добавить площадку</a>
+        </div>
     </header>
 
     <div class="main-container">
@@ -115,33 +111,17 @@
         </aside>
 
         <main class="map-area">
-            <div class="view-controls">
-                <button id="viewMap" class="active">🗺️ Карта</button>
-                <button id="viewList">Список</button>
-            </div>
             <div id="map"></div>
-            <div id="listContainer" class="hidden">
+            <div class="list-wrap">
                 <div id="cardsGrid" class="grid"></div>
             </div>
         </main>
     </div>
 
-    <!-- Что вы получаете бесплатно -->
-    <section id="benefits" class="info-section">
-        <h2>Что вы получаете бесплатно</h2>
-        <p class="subtitle">Базовый доступ к каталогу открыт для всех — без регистрации и оплаты.</p>
-        <div class="benefits">
-            <div class="benefit"><b>🗂️ База площадок и агентств</b>Все регионы России в одном месте: СМИ, наружная реклама, ТВ, Telegram, ВК и агентства.</div>
-            <div class="benefit"><b>🔎 Умный поиск и фильтры</b>Поиск по названию, городу и услугам, включая синонимы: «щиты» найдёт и билборды.</div>
-            <div class="benefit"><b>🗺️ Карта по регионам</b>Наглядно видно, какие площадки работают в нужном вам городе.</div>
-            <div class="benefit"><b>✅ Статусы проверки</b>Площадки со статусом «Проверено» мы связывали с владельцами лично.</div>
-        </div>
-    </section>
-
-    <!-- Бесплатно vs Premium -->
+    <!-- Бесплатно или Premium -->
     <section id="plans" class="info-section">
-        <h2>Бесплатно или Premium?</h2>
-        <p class="subtitle">Бесплатная версия помогает найти контакты. Premium — не слить бюджет и масштабировать результат.</p>
+        <h2>Что бесплатно, а что платно</h2>
+        <p class="subtitle">Вся база площадок и агентств России в одном месте: СМИ, наружная реклама, ТВ, Telegram, ВК. Умный поиск понимает синонимы — «щиты» найдут и билборды. Карта покажет, кто работает в нужном городе. Площадки со статусом «Проверено» мы связывали с владельцами лично. Всё это бесплатно — без регистрации и оплаты.</p>
         <div class="plans">
             <div class="plan">
                 <h3>Бесплатно</h3>
@@ -149,7 +129,7 @@
                 <div class="price-tag">0 ₽</div>
                 <ul>
                     <li>Полный доступ к каталогу и контактам</li>
-                    <li>Поиск, фильтры и карта</li>
+                    <li>Поиск с синонимами, фильтры и карта</li>
                     <li>UTM-метки для честной аналитики</li>
                     <li>Статус «Проверено» у площадок</li>
                 </ul>
@@ -175,10 +155,10 @@
         </div>
     </section>
 
-    <!-- Форма заявки -->
+    <!-- Форма: добавление площадки/агентства -->
     <section id="addForm" class="info-section">
-        <h2>Заявка на тест каталога</h2>
-        <p class="subtitle">Оставьте заявку — мы свяжемся с вами в течение 24 часов и предложим тест площадок с отчётом.</p>
+        <h2>Добавить площадку или агентство</h2>
+        <p class="subtitle">Заполните форму — мы проверим информацию и добавим вас в каталог бесплатно. Попадание в каталог открывает доступ к рекламодателям со всей России.</p>
         <div id="formWrap"></div>
         <p class="form-disclaimer">Отправляя форму, вы соглашаетесь на обработку персональных данных.</p>
     </section>
@@ -189,11 +169,11 @@
         <div class="faq">
             <details>
                 <summary>Как попасть в каталог?</summary>
-                <p>Заполните форму заявки на этой странице — мы проверим площадку и добавим её бесплатно.</p>
+                <p>Заполните форму «Добавить площадку или агентство» на этой странице — мы проверим данные и добавим вас бесплатно.</p>
             </details>
             <details>
                 <summary>Сколько это стоит?</summary>
-                <p>Базовый доступ к каталогу и контактам бесплатен. Расширенная аналитика, аудит площадок и экспорт доступны в подписке Premium.</p>
+                <p>Базовый доступ к каталогу и контактам бесплатен. Расширенная аналитика, аудит площадок и кампании под ключ доступны в подписке Premium.</p>
             </details>
             <details>
                 <summary>Что значит статус «Проверено»?</summary>
@@ -217,9 +197,9 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // ===== НАСТРОЙКИ =====
-        // FORM_URL — форма заявки (Google Forms)
-        // PAY_URL — ссылка на оплату подписки в ЮKassa. Пока там заглушка,
-        // кнопка «Купить подписку» показывает сообщение о подключении оплаты.
+        // FORM_URL — форма добавления площадки (Google Forms)
+        // PAY_URL — ссылка на оплату подписки в ЮKassa.
+        // Вставьте вашу ссылку оплаты между кавычками вместо заглушки.
         const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSe8ChbFttTHq3D-BTbEJWTUYjF1aM1ezZVIo1Fas2ufZQ9qaA/viewform?embedded=true';
         const PAY_URL  = 'ВСТАВЬТЕ_ССЫЛКУ_ЮКАССЫ';
 
@@ -335,8 +315,6 @@
             document.getElementById('typeFilter').addEventListener('change', applyFilters);
             document.getElementById('globalSearch').addEventListener('input', applyFilters);
             document.getElementById('resetFilters').addEventListener('click', resetFilters);
-            document.getElementById('viewMap').addEventListener('click', (e) => switchView('map', e.target));
-            document.getElementById('viewList').addEventListener('click', (e) => switchView('list', e.target));
         }
 
         // ===== ПОИСК С СИНОНИМАМИ =====
@@ -387,21 +365,6 @@
             document.getElementById('typeFilter').value = '';
             document.getElementById('globalSearch').value = '';
             applyFilters();
-        }
-
-        function switchView(view, btn) {
-            document.querySelectorAll('.view-controls button').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const mapDiv = document.getElementById('map');
-            const listDiv = document.getElementById('listContainer');
-            if (view === 'map') {
-                mapDiv.style.display = 'block';
-                listDiv.classList.add('hidden');
-                if (map) map.invalidateSize();
-            } else {
-                mapDiv.style.display = 'none';
-                listDiv.classList.remove('hidden');
-            }
         }
 
         // ===== РЕНДЕР =====
@@ -463,11 +426,11 @@
 
         // ===== СТАТИЧЕСКИЕ СЕКЦИИ =====
         function initStaticSections() {
-            // Форма заявки
+            // Форма добавления площадки
             const frame = document.createElement('iframe');
             frame.className = 'form-frame';
             frame.src = FORM_URL;
-            frame.title = 'Форма заявки';
+            frame.title = 'Форма добавления площадки';
             frame.setAttribute('allowfullscreen', '');
             frame.setAttribute('loading', 'lazy');
             document.getElementById('formWrap').appendChild(frame);
