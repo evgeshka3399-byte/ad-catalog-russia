@@ -6,20 +6,12 @@
     <title>AD Catalog Russia | Каталог рекламных площадок</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root { 
-            --primary: #005bbb; 
-            --primary-dark: #004a99; 
-            --gold: #d4a017; 
-            --bg: #f4f7f6; 
-            --text: #333; 
-            --border: #e0e0e0; 
-            --map-bg: #1a1a1a; /* Темный фон для карты */
-        }
+        :root { --primary: #005bbb; --primary-dark: #004a99; --gold: #d4a017; --bg: #f4f7f6; --text: #333; --border: #e0e0e0; }
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); }
         html { scroll-behavior: smooth; }
 
-        /* Шапка */
+        /* Шапка: логотип, крупное «О проекте», растянутый поиск, кнопки справа */
         .header { background: #fff; padding: 12px 30px; display: flex; align-items: center; gap: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); flex-wrap: wrap; }
         .logo-block { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; flex-shrink: 0; }
         .logo { font-weight: bold; font-size: 1.2rem; color: var(--primary); text-decoration: none; white-space: nowrap; }
@@ -42,14 +34,13 @@
         .btn-secondary { background: transparent; border: 1px solid var(--border); padding: 8px; border-radius: 6px; cursor: pointer; margin-top: 10px; }
         .map-area { flex: 1; }
 
-        /* Окно карты: скруглённые края, мягкая тень, ТЕМНЫЙ ФОН */
+        /* Окно карты: скруглённые края, тень, тёмный фон */
         .map-frame {
             margin: 14px 14px 0;
             border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0, 40, 80, 0.2); /* Более глубокая тень */
-            border: 1px solid rgba(0, 60, 120, 0.1);
-            background: var(--map-bg); /* Темный фон контейнера */
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+            background: #14181d;
         }
         #map { width: 100%; height: 320px; display: block; }
 
@@ -171,27 +162,18 @@
         const API_URL = 'https://script.google.com/macros/s/AKfycbzVrZlaeYBvEnktjSmYkIAwlpFuTPO_mtQoLN0M2USVIkcGLtBU-vCd5GneRWI55McD/exec';
         const FALLBACK_URL = 'data/catalog.json';
 
-        // ===== ТОН КАРТЫ (ТЕМНЫЙ) =====
-        // Теперь используется 'dark' стиль
+        // ===== ТОН КАРТЫ =====
+        // 'dark'     — тёмная (сейчас)
+        // 'voyager'  — пастельная бежево-голубая
+        // 'positron' — светло-серая минималистичная
+        // 'osm'      — классическая зелёная
         const MAP_STYLE = 'dark';
 
         const TILES = {
-            dark: { 
-                url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', 
-                attr: '© OpenStreetMap, © CARTO' 
-            },
-            voyager: { 
-                url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', 
-                attr: '© OpenStreetMap, © CARTO' 
-            },
-            positron: { 
-                url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', 
-                attr: '© OpenStreetMap, © CARTO' 
-            },
-            osm: { 
-                url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-                attr: '© OpenStreetMap contributors' 
-            }
+            dark:     { url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',                    attr: '© OpenStreetMap, © CARTO' },
+            voyager:  { url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',         attr: '© OpenStreetMap, © CARTO' },
+            positron: { url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',                   attr: '© OpenStreetMap, © CARTO' },
+            osm:      { url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',                               attr: '© OpenStreetMap contributors' }
         };
 
         // ===== СЛОВАРЬ СИНОНИМОВ ДЛЯ ПОИСКА =====
@@ -210,9 +192,9 @@
             ['стенды', 'вывески', 'оформление'],
         ];
 
-        let allData = ;
-        let map;
-        let markers = ;
+        let allData = [];
+        let map = null;
+        let markers = [];
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchData();
@@ -227,7 +209,7 @@
                 if (!response.ok) throw new Error('API недоступен');
                 allData = await response.json();
                 if (!Array.isArray(allData) || !allData.length) throw new Error('Пустой ответ API');
-                console.log(`Загружено \${allData.length} записей из таблицы`);
+                console.log('Загружено ' + allData.length + ' записей из таблицы');
                 populateFilters();
                 renderResults(allData);
             } catch (e) {
@@ -235,7 +217,7 @@
                 try {
                     const response = await fetch(FALLBACK_URL);
                     allData = await response.json();
-                    console.log(`Загружено \${allData.length} записей из локального файла`);
+                    console.log('Загружено ' + allData.length + ' записей из локального файла');
                     populateFilters();
                     renderResults(allData);
                 } catch (err) {
@@ -246,30 +228,19 @@
             }
         }
 
-        // ===== КАРТА (ТЕМНАЯ) =====
+        // ===== КАРТА =====
         function initMap() {
-            map = L.map('map', {
-                zoomControl: false
-            }).setView([55.75, 37.61], 5);
+            map = L.map('map', { zoomControl: false }).setView([55.75, 37.61], 5);
             L.control.zoom({ position: 'topright' }).addTo(map);
 
             const style = TILES[MAP_STYLE] || TILES.dark;
-            
-            // Добавляем слой с темной картой
             L.tileLayer(style.url, {
                 attribution: style.attr,
                 maxZoom: 19
             }).addTo(map);
 
-            // Хак для идеального темного стиля (инверсия цветов)
-            // Это делает карту еще более стильной, убирая серые оттенки
-            const tileLayer = L.tileLayer(style.url, { attribution: style.attr, maxZoom: 19 });
-            tileLayer.addTo(map);
-            
-            // Применяем CSS фильтр к слою карты для глубокой темной темы
-            // Примечание: это работает в большинстве современных браузеров
-            const tiles = document.querySelectorAll('.leaflet-tile-container img');
-            tiles.forEach(img => img.style.filter = "invert(1) hue-rotate(180deg) contrast(1.2)");
+            // Если данные уже успели загрузиться раньше карты — рисуем
+            if (allData.length) renderResults(allData);
         }
 
         // ===== ФИЛЬТРЫ =====
@@ -375,19 +346,24 @@
 
         // ===== РЕНДЕР =====
         function renderResults(data) {
-            markers.forEach(m => map.removeLayer(m));
-            markers = ;
+            // Список карточек рисуем всегда
             const grid = document.getElementById('cardsGrid');
             grid.innerHTML = '';
+
+            // Метки — только если карта уже инициализирована
+            if (map) {
+                markers.forEach(m => map.removeLayer(m));
+                markers = [];
+            }
 
             data.forEach(item => {
                 const lat = parseFloat(String(item.lat).replace(',', '.'));
                 const lng = parseFloat(String(item.lng).replace(',', '.'));
                 const url = String(item.url || '').trim();
 
-                if (lat && lng && url) {
+                if (map && lat && lng && url) {
                     const marker = L.marker([lat, lng]).addTo(map);
-                    const popupContent = `<b>${item.name || 'Без названия'}</b><br>${item.city || ''}, ${item.region || ''}<br><small>${item.category || ''}</small><br><a href="\${url}" target="_blank">Перейти на сайт</a>`;
+                    const popupContent = '<b>' + (item.name || 'Без названия') + '</b><br>' + (item.city || '') + ', ' + (item.region || '') + '<br><small>' + (item.category || '') + '</small><br><a href="' + url + '" target="_blank">Перейти на сайт</a>';
                     marker.bindPopup(popupContent);
                     markers.push(marker);
                 }
@@ -399,33 +375,32 @@
                 const aMin = Number(item.audience_min);
                 const aMax = Number(item.audience_max);
                 if (aMin && aMax) {
-                    audienceText = `<div class="meta">👥 Охват: ${aMin.toLocaleString('ru-RU')} - ${aMax.toLocaleString('ru-RU')}</div>`;
+                    audienceText = '<div class="meta">👥 Охват: ' + aMin.toLocaleString('ru-RU') + ' - ' + aMax.toLocaleString('ru-RU') + '</div>';
                 }
 
                 let phoneBtn = '';
                 if (item.phone) {
                     const cleanPhone = String(item.phone).replace(/\D/g, '');
-                    phoneBtn = `<a href="tel:+\${cleanPhone}" class="btn-secondary" style="display:inline-block; font-size:0.8rem; padding:5px; margin-top:5px; text-decoration:none;">📞 Позвонить</a>`;
+                    phoneBtn = '<a href="tel:+' + cleanPhone + '" class="btn-secondary" style="display:inline-block; font-size:0.8rem; padding:5px; margin-top:5px; text-decoration:none;">📞 Позвонить</a>';
                 }
 
                 let socialBtn = '';
                 if (String(item.social_links || '').trim()) {
-                    socialBtn = `<a href="\${item.social_links}" target="_blank" class="btn-secondary" style="display:inline-block; font-size:0.8rem; padding:5px; margin-top:5px; text-decoration:none;">💬 Соцсеть</a>`;
+                    socialBtn = '<a href="' + item.social_links + '" target="_blank" class="btn-secondary" style="display:inline-block; font-size:0.8rem; padding:5px; margin-top:5px; text-decoration:none;">💬 Соцсеть</a>';
                 }
 
-                card.innerHTML = `
-                    <h4>\${item.name || 'Без названия'}</h4>
-                    <div class="meta">📍 ${item.city || ''}, ${item.region || ''}</div>
-                    <div class="meta">🏷️ \${item.category || ''}</div>
-                    \${audienceText}
-                    <div class="meta">💰 От \${item.price_min || '0'} ₽</div>
-                    <div style="margin-top:10px; display:flex; gap:8px;">
-                        <a href="\${url}" target="_blank" class="btn-primary" style="padding: 8px 16px; font-size: 0.9rem; flex: 1; text-align: center;">Сайт</a>
-                        \${phoneBtn}
-                        \${socialBtn}
-                    </div>
-                    <div style="margin-top:8px; font-size:0.8rem; color:#888;">✅ Проверено</div>
-                `;
+                card.innerHTML =
+                    '<h4>' + (item.name || 'Без названия') + '</h4>' +
+                    '<div class="meta">📍 ' + (item.city || '') + ', ' + (item.region || '') + '</div>' +
+                    '<div class="meta"> ' + (item.specialization || 'Нет описания') + '</div>' +
+                    audienceText +
+                    (item.price_from ? '<div class="price">от ' + item.price_from + ' ₽</div>' : '') +
+                    '<div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">' +
+                        (url ? '<a href="' + url + '" target="_blank" class="btn-primary" style="flex:1; text-align:center; font-size:0.9rem; padding:8px; border-radius:6px; text-decoration:none;">Сайт</a>' : '') +
+                        phoneBtn +
+                        socialBtn +
+                    '</div>' +
+                    (item.status === 'Проверено' ? '<div style="color:green; font-size:0.8rem; margin-top:5px;">✅ Проверено</div>' : '');
                 grid.appendChild(card);
             });
         }
