@@ -6,12 +6,9 @@
     <title>AD Catalog Russia — каталог рекламных площадок и агентств России</title>
     <meta name="description" content="Независимый каталог рекламных площадок России: локальные СМИ, билборды, Telegram-каналы, паблики ВК. Честная аналитика переходов по UTM.">
 
-    <!-- Favicon (встроенный, чтобы консоль была чистой) -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23005bbb'/%3E%3Ctext x='32' y='43' font-family='Arial' font-size='30' font-weight='bold' fill='%23d4a017' text-anchor='middle'%3EAD%3C/text%3E%3C/svg%3E">
 
-    <!-- ============================================================
-         Яндекс.Метрика: счётчик 114270099. НЕ УДАЛЯТЬ.
-         ============================================================ -->
+    <!-- Яндекс.Метрика: счётчик 114270099. НЕ УДАЛЯТЬ. -->
     <script type="text/javascript">
         (function(m,e,t,r,i,k,a){
             m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -19,16 +16,9 @@
             for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
             k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
         })(window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
-
-        ym(114270099, 'init', {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true
-        });
+        ym(114270099, 'init', { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/114270099" style="position:absolute; left:-9999px;" alt=""></div></noscript>
-    <!-- ============================================================ -->
 
     <style>
         :root {
@@ -39,59 +29,88 @@
             --text: #e8e8e8;
             --text-dim: #a0a0a0;
             --border: #3d3d3d;
-            --blue: #4d9fff;      /* голубой-бирюзовый акцент вместо яркого синего */
+            --blue: #4d9fff;
             --blue-deep: #005bbb;
             --gold: #d4a017;
             --green: #4caf50;
         }
         * { box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body {
-            margin: 0;
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 16px;
-        }
+        body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Segoe UI', Tahoma, Verdana, sans-serif; font-size: 16px; }
         a { color: var(--blue); }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
 
-        /* ================= ВЕРХНИЙ БЛОК: О проекте + окошки ================= */
-        /* При прокрутке вниз этот блок уезжает вместе со страницей (пропадает),
-           при прокрутке вверх — возвращается. Липкой является только тулбар ниже. */
-        .hero { padding: 20px 0 6px; }
-        .about-row {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+        /* ===== ВЕРХНИЙ БЛОК: «О проекте» + иконки-навигация ===== */
+        .hero { padding: 18px 0 4px; }
+        .about-line { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
         .about-label {
-            font-weight: bold;
-            font-size: 1.05rem;
-            color: var(--text);
-            margin-right: 6px;
+            font-weight: 800;
+            font-size: 1.15rem;
+            white-space: nowrap;
+            /* тот же градиент, что у логотипа */
+            background: linear-gradient(120deg, #7ec8ff, #45d8c8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .about-item {
+
+        /* Иконки в стиле Яндекса: плитка с иконкой, подпись снизу, растянуты на всю ширину */
+        .nav-icons { display: flex; gap: 10px; width: 100%; }
+        .nav-item {
             position: relative;
-            border: 1px solid var(--border);
-            background: var(--bg-panel);
+            flex: 1 1 0;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
             color: var(--text);
-            border-radius: 14px;
-            padding: 9px 16px;
-            font-size: 0.9rem;
             cursor: help;
-            user-select: none;
-            transition: border-color 0.15s, background 0.15s;
+            padding: 4px 2px;
+            border-radius: 12px;
+            text-align: center;
         }
-        .about-item:hover { border-color: var(--blue); background: #303030; }
-        /* Всплывающее окошко с описанием */
+        .nav-icon {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.45);
+            transition: transform 0.15s, box-shadow 0.15s, outline-color 0.15s;
+            outline: 2px solid transparent;
+        }
+        .nav-name { font-size: 0.82rem; color: var(--text-dim); line-height: 1.2; }
+        .nav-item:hover { cursor: help; }
+        .nav-item:hover .nav-icon { transform: translateY(-3px) scale(1.06); outline-color: rgba(255,255,255,0.25); }
+        .nav-item:hover .nav-name { color: var(--text); }
+        /* Premium?: подсветка золотом и курсор-ссылка */
+        .nav-item.premium { cursor: pointer; }
+        .nav-item.premium .nav-icon {
+            background: linear-gradient(135deg, #e7b52a, #b8860b) !important;
+        }
+        .nav-item.premium:hover .nav-icon {
+            transform: translateY(-3px) scale(1.1);
+            outline-color: var(--gold);
+            box-shadow: 0 4px 18px rgba(212,160,23,0.55);
+        }
+        .nav-item.premium .nav-name { color: var(--gold); font-weight: 700; }
+
+        /* Градиенты плиток — приглушённые, «не напирают» */
+        .g1 { background: linear-gradient(135deg, #2f6fb2, #1d4d84); }
+        .g2 { background: linear-gradient(135deg, #2f8fa8, #1d6177); }
+        .g3 { background: linear-gradient(135deg, #3a7d5d, #245a40); }
+        .g4 { background: linear-gradient(135deg, #8a6d3b, #5d4623); }
+        .g5 { background: linear-gradient(135deg, #6a5aa8, #453877); }
+        .g6 { background: linear-gradient(135deg, #b8860b, #8a6508); }
+
+        /* Всплывающее окошко */
         .popover {
             display: none;
             position: absolute;
             top: calc(100% + 10px);
-            left: 0;
-            z-index: 60;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 80;
             width: min(560px, 78vw);
             max-height: 60vh;
             overflow-y: auto;
@@ -102,9 +121,11 @@
             box-shadow: 0 12px 32px rgba(0,0,0,0.55);
             font-size: 0.88rem;
             line-height: 1.55;
-            color: var(--text);
+            text-align: left;
             cursor: default;
         }
+        .nav-item:nth-child(-n+2) .popover { left: 0; transform: none; }
+        .nav-item:nth-last-child(-n+2) .popover { left: auto; right: 0; transform: none; }
         .popover h4 { margin: 0 0 8px; color: var(--blue); font-size: 1rem; }
         .popover p { margin: 0 0 10px; }
         .popover ul { margin: 0 0 10px; padding-left: 20px; }
@@ -121,38 +142,33 @@
             border-radius: 8px;
             text-decoration: none;
         }
-        /* Открытие при наведении (десктоп) и по тапу (тач) */
-        .about-item:hover .popover { display: block; }
-        .about-item.open .popover { display: block; }
+        .nav-item:hover .popover { display: block; }
+        .nav-item.open .popover { display: block; }
 
-        .contacts-line { margin-top: 10px; font-size: 0.9rem; color: var(--text-dim); }
+        .contacts-line { margin-top: 12px; font-size: 0.9rem; color: var(--text-dim); }
         .contacts-line a { color: var(--text); }
 
-        /* ================= ОБЪЁМНЫЙ ЛОГОТИП (параллелепипед) ================= */
-        .logo-wrap { display: flex; justify-content: center; padding: 26px 0 20px; }
+        /* ===== ОБЪЁМНЫЙ ЛОГОТИП: параллелепипед, тень вверх и вправо ===== */
+        .logo-wrap { display: flex; justify-content: center; padding: 24px 0 18px; }
         .logo-3d {
             position: relative;
             font-weight: 800;
-            font-size: clamp(1.9rem, 5vw, 3.4rem);
+            font-size: clamp(2.2rem, 6vw, 4.2rem);
             letter-spacing: 1px;
-            color: #dfe9f3;
-            transform: perspective(700px) rotateX(6deg) rotateY(-14deg);
-            text-shadow:
-                1px 1px 0 #9fb8cf,
-                2px 2px 0 #8aa6bf,
-                3px 3px 0 #7592ad,
-                4px 4px 0 #607e9b,
-                5px 5px 0 #4b6a89,
-                6px 6px 0 #375677,
-                8px 8px 12px rgba(0,0,0,0.6);
-            background: linear-gradient(120deg, var(--blue-deep), #2f8fa8);
+            transform: perspective(900px) rotateX(8deg) rotateY(-16deg);
+            background: linear-gradient(120deg, #7ec8ff, #45d8c8 45%, #2f8fa8);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(6px 6px 0 rgba(20, 60, 100, 0.55));
+            /* тень уходит ВВЕРХ (отрицательный Y) и ВПРАВО (положительный X) */
+            filter:
+                drop-shadow(2px -2px 0 rgba(60,120,160,0.9))
+                drop-shadow(4px -4px 0 rgba(40,90,130,0.8))
+                drop-shadow(6px -6px 0 rgba(25,60,95,0.7))
+                drop-shadow(10px -10px 22px rgba(0,0,0,0.6));
         }
 
-        /* ================= ЛИПКИЙ ТУЛБАР: поиск + фильтры ================= */
+        /* ===== ЛИПКИЙ ТУЛБАР: поиск + бейдж «Найдено» + фильтры ===== */
         .toolbar {
             position: sticky;
             top: 0;
@@ -161,7 +177,8 @@
             border-bottom: 1px solid var(--border);
             box-shadow: 0 4px 14px rgba(0,0,0,0.4);
         }
-        .search-box { padding: 12px 0 4px; }
+        .search-row { display: flex; align-items: center; gap: 14px; padding: 12px 0 4px; }
+        .search-box { flex: 1; }
         .search-box input {
             width: 100%;
             padding: 13px 18px;
@@ -173,173 +190,107 @@
             outline: none;
         }
         .search-box input:focus { border-color: var(--blue); }
-        .filters-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-            padding: 8px 0 12px;
-        }
-        .filters-row .filter-label { font-weight: 600; color: var(--text-dim); }
-        .filters-row select {
-            flex: 1 1 160px;
-            min-width: 140px;
-            padding: 9px 12px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: #1f1f1f;
-            color: var(--text);
-        }
-        .btn-reset {
-            padding: 9px 18px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text);
-            cursor: pointer;
-        }
-        .btn-reset:hover { border-color: var(--blue); }
-
-        /* Расширенные фильтры (Premium) — включается флагом PREMIUM_ENABLED */
-        .premium-filters {
-            display: none;
-            gap: 10px;
-            flex-wrap: wrap;
-            padding: 0 0 12px;
-            border-top: 1px dashed var(--border);
-        }
-        .premium-filters.show { display: flex; }
-        .premium-lock {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            padding: 8px 0 12px;
-            border-top: 1px dashed var(--border);
-        }
-        .premium-lock a { color: var(--gold); }
-
-        /* ================= БЕЙДЖ «НАЙДЕНО» ================= */
-        .found-row {
-            display: flex;
-            justify-content: flex-end;
-            padding: 14px 0 6px;
-        }
+        /* Бейдж «Найдено» — справа от поиска, в пустом месте */
         .found-badge {
-            position: relative;
-            background: var(--bg-panel);
+            background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 8px 16px;
             font-weight: bold;
             font-size: 1rem;
+            white-space: nowrap;
         }
-        .found-badge::after {
-            content: '';
-            position: absolute;
-            bottom: -7px;
-            right: 22px;
-            border: 8px solid transparent;
-            border-top-color: var(--bg-panel);
-            border-bottom: none;
+        .filters-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding: 8px 0 12px; }
+        .filters-row .filter-label { font-weight: 600; color: var(--text-dim); }
+        .filters-row select {
+            flex: 1 1 160px; min-width: 140px;
+            padding: 9px 12px; border-radius: 10px;
+            border: 1px solid var(--border); background: #1f1f1f; color: var(--text);
         }
+        .btn-reset { padding: 9px 18px; border-radius: 10px; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer; }
+        .btn-reset:hover { border-color: var(--blue); }
 
-        /* ================= СЕТКА КАРТОЧЕК (masonry) ================= */
-        .grid {
-            column-gap: 16px;
-            column-count: 5;
-            margin: 18px 0 40px;
-        }
+        .premium-filters { display: none; gap: 10px; flex-wrap: wrap; padding: 0 0 12px; border-top: 1px dashed var(--border); }
+        .premium-filters.show { display: flex; }
+        .premium-filters select { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: #1f1f1f; color: var(--text); }
+        .premium-lock { font-size: 0.85rem; color: var(--text-dim); padding: 8px 0 12px; border-top: 1px dashed var(--border); }
+        .premium-lock a { color: var(--gold); }
+
+        /* ===== СЕТКА КАРТОЧЕК (masonry) ===== */
+        .grid { column-gap: 16px; column-count: 5; margin: 16px 0 40px; }
         .card {
-            display: inline-block; /* без этого columns ломает блоки */
-            width: 100%;
-            margin: 0 0 16px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px;
-            cursor: pointer;
-            break-inside: avoid;
+            display: inline-block; width: 100%; margin: 0 0 16px;
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+            padding: 16px; cursor: pointer; break-inside: avoid;
             transition: background 0.15s, transform 0.12s;
         }
         .card:hover { background: var(--bg-card-hover); transform: translateY(-2px); }
         .card h4 { margin: 0 0 6px; color: var(--blue); font-size: 1.02rem; }
         .card .meta { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; }
         .card .desc { font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px; }
-        .card .row { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.85rem; }
+        .card .row { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.85rem; margin-bottom: 4px; }
         .card .price { color: #7dd97d; font-weight: bold; }
         .card .badge-verified { color: var(--green); font-size: 0.8rem; margin-top: 8px; }
 
-        /* ================= РЕКЛАМНАЯ ПЛИТКА (заглушка) ================= */
-        /* Сюда после модерации вставляется код блока РСЯ или VK Рекламной сети.
-           Плитка стилизована как карточка, помечена словом «Реклама» (требование
-           закона о рекламе). Прокручивается вместе с карточками — это обычный
-           элемент той же сетки. */
+        /* Контакты внутри карточки */
+        .contacts-block { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+        .contacts-block .c-label { font-size: 0.75rem; color: var(--text-dim); width: 100%; }
+        .chip {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: #1f1f1f; border: 1px solid var(--border);
+            border-radius: 12px; padding: 4px 9px;
+            font-size: 0.78rem; color: var(--text); text-decoration: none;
+        }
+        .chip:hover { border-color: var(--blue); }
+        .chip svg { flex-shrink: 0; }
+
+        /* ===== РЕКЛАМНАЯ ПЛИТКА (заглушка) ===== */
         .ad-tile {
-            display: inline-block;
-            width: 100%;
-            margin: 0 0 16px;
-            background: var(--bg-panel);
-            border: 1px dashed #4a4a4a;
-            border-radius: 14px;
-            padding: 16px;
-            break-inside: avoid;
-            min-height: 220px;
-            display: flex;
-            flex-direction: column;
+            display: inline-block; width: 100%; margin: 0 0 16px;
+            background: var(--bg-panel); border: 1px dashed #4a4a4a; border-radius: 14px;
+            padding: 16px; break-inside: avoid; min-height: 220px;
         }
-        .ad-tile .ad-label {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
+        .ad-tile .ad-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
         .ad-tile .ad-placeholder {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 0.85rem;
-            text-align: center;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.02);
+            display: flex; align-items: center; justify-content: center;
+            color: #666; font-size: 0.85rem; text-align: center;
+            min-height: 160px; border-radius: 10px; background: rgba(255,255,255,0.02);
         }
-        /* КОММЕНТАРИЙ ДЛЯ ВСТАВКИ РЕКЛАМЫ:
-           1) РСЯ: в <head> добавить заголовочный код РСЯ, сюда — <div id="yandex_rtb_...">
-              и вызов Ya.Context.AdvManager.render(...) — стандартный адаптивный блок.
-           2) VK: аналогично — заголовочный код VK Ad Network и <div> блока.
-           Менять innerHTML этой плитки на код блока — тогда обёртка .ad-tile
-           с меткой «Реклама» сохраняется. */
+        /* ВСТАВКА РЕКЛАМЫ: сюда после модерации вшивается код блока РСЯ / VK
+           (заголовочный код — в <head>, сам блок — вместо .ad-placeholder). */
 
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 22px 0 30px;
-            text-align: center;
-            color: var(--text-dim);
-            font-size: 0.88rem;
-        }
-        /* Подвал: место под метку статистики переходов (счётчик Метрики уже в <head>) */
+        footer { border-top: 1px solid var(--border); padding: 22px 0 30px; text-align: center; color: var(--text-dim); font-size: 0.88rem; }
 
-        /* ================= МОБИЛЬНАЯ АДАПТИВНОСТЬ ================= */
         @media (max-width: 1100px) { .grid { column-count: 4; } }
         @media (max-width: 860px)  { .grid { column-count: 3; } }
-        @media (max-width: 640px) {
-            .grid { column-count: 2; }
-            .popover { left: auto; right: 0; width: min(420px, 92vw); }
+        @media (max-width: 760px) {
+            .nav-icons { flex-wrap: wrap; }
+            .nav-item { flex: 1 1 30%; }
+            .popover { left: 0 !important; right: auto !important; transform: none !important; width: min(420px, 92vw); }
             .logo-3d { transform: none; filter: none; -webkit-text-fill-color: initial; color: #dfe9f3; }
         }
-        @media (max-width: 430px) { .grid { column-count: 1; } }
+        @media (max-width: 640px) { .grid { column-count: 2; } .search-row { flex-wrap: wrap; } }
+        @media (max-width: 430px) { .grid { column-count: 1; } .nav-item { flex: 1 1 45%; } }
     </style>
 </head>
 <body>
 
-    <!-- ============ ВЕРХНИЙ БЛОК: О проекте + всплывающие окошки ============ -->
+    <!-- ============ ВЕРХНИЙ БЛОК: «О проекте» + иконки с окошками ============ -->
     <header class="hero container">
-        <div class="about-row" id="aboutRow">
+        <div class="about-line">
             <span class="about-label">О проекте:</span>
+        </div>
 
-            <div class="about-item" tabindex="0">
-                Как это работает?
+        <div class="nav-icons" id="aboutRow">
+
+            <div class="nav-item" tabindex="0">
+                <div class="nav-icon g1">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2"/>
+                        <path d="M15.5 8.5l-2.2 5-5 2.2 2.2-5z" fill="#fff"/>
+                    </svg>
+                </div>
+                <span class="nav-name">Как это работает?</span>
                 <div class="popover">
                     <h4>Как это работает?</h4>
                     <ul>
@@ -351,8 +302,15 @@
                 </div>
             </div>
 
-            <div class="about-item" tabindex="0">
-                Важные понятия
+            <div class="nav-item" tabindex="0">
+                <div class="nav-icon g2">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 4h11a2 2 0 012 2v14H7a2 2 0 01-2-2z" stroke="#fff" stroke-width="2"/>
+                        <path d="M5 4v14" stroke="#fff" stroke-width="2"/>
+                        <path d="M9 8h5M9 12h5" stroke="#fff" stroke-width="1.6"/>
+                    </svg>
+                </div>
+                <span class="nav-name">Важные понятия</span>
                 <div class="popover">
                     <h4>Важные понятия</h4>
                     <ul>
@@ -366,8 +324,14 @@
                 </div>
             </div>
 
-            <div class="about-item" tabindex="0">
-                Частые вопросы
+            <div class="nav-item" tabindex="0">
+                <div class="nav-icon g3">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 5h16v11H9l-5 4z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M9 10h.01M12 10h.01M15 10h.01" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <span class="nav-name">Частые вопросы</span>
                 <div class="popover">
                     <h4>Частые вопросы</h4>
                     <details>
@@ -389,8 +353,15 @@
                 </div>
             </div>
 
-            <div class="about-item" tabindex="0">
-                Что бесплатно
+            <div class="nav-item" tabindex="0">
+                <div class="nav-icon g4">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                        <rect x="4" y="10" width="16" height="10" rx="2" stroke="#fff" stroke-width="2"/>
+                        <path d="M4 10c0-2 1.5-3 3-3s3 1 5 3c2-2 3.5-3 5-3s3 1 3 3" stroke="#fff" stroke-width="2"/>
+                        <path d="M12 10v10" stroke="#fff" stroke-width="2"/>
+                    </svg>
+                </div>
+                <span class="nav-name">Что бесплатно</span>
                 <div class="popover">
                     <h4>Что бесплатно</h4>
                     <ul>
@@ -403,8 +374,13 @@
                 </div>
             </div>
 
-            <div class="about-item" tabindex="0">
-                Что даёт подписка
+            <div class="nav-item" tabindex="0">
+                <div class="nav-icon g5">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3l2.5 5.5L20 9.5l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-1z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="nav-name">Что даёт подписка</span>
                 <div class="popover">
                     <h4>Что даёт подписка</h4>
                     <ul>
@@ -418,14 +394,21 @@
                 </div>
             </div>
 
-            <div class="about-item" tabindex="0">
-                Premium?
+            <a class="nav-item premium" href="premium.html">
+                <div class="nav-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 8l4 4 4-7 4 7 4-4v9H4z" fill="#fff"/>
+                        <rect x="4" y="18" width="16" height="2" rx="1" fill="#fff"/>
+                    </svg>
+                </div>
+                <span class="nav-name">Premium?</span>
                 <div class="popover">
                     <h4>Premium?</h4>
                     <p>Бесплатная версия помогает найти контакты. Premium-версия помогает не слить бюджет и масштабировать результат.</p>
-                    <a href="premium.html" class="cta">Оформить премиум</a>
+                    <p><b>Подключить!</b> Нажмите на значок — откроется страница оформления.</p>
                 </div>
-            </div>
+            </a>
+
         </div>
 
         <div class="contacts-line">
@@ -437,11 +420,14 @@
         </div>
     </header>
 
-    <!-- ============ ЛИПКИЙ ТУЛБАР: поиск + фильтры ============ -->
+    <!-- ============ ЛИПКИЙ ТУЛБАР ============ -->
     <div class="toolbar">
         <div class="container">
-            <div class="search-box">
-                <input type="text" id="globalSearch" placeholder="Поиск: город, название, услуга...">
+            <div class="search-row">
+                <div class="search-box">
+                    <input type="text" id="globalSearch" placeholder="Поиск: город, название, услуга...">
+                </div>
+                <div class="found-badge">Найдено: <span id="countResult">0</span></div>
             </div>
             <div class="filters-row">
                 <span class="filter-label">Фильтр</span>
@@ -451,7 +437,6 @@
                 <button id="resetFilters" class="btn-reset">Сброс</button>
             </div>
 
-            <!-- Расширенные фильтры: включаются флагом PREMIUM_ENABLED в JS ниже -->
             <div class="premium-filters" id="premiumFilters">
                 <select id="budgetMin"><option value="">Бюджет: от</option></select>
                 <select id="budgetMax"><option value="">Бюджет: до</option></select>
@@ -467,9 +452,6 @@
 
     <!-- ============ КАТАЛОГ ============ -->
     <main class="container">
-        <div class="found-row">
-            <div class="found-badge">Найдено: <span id="countResult">0</span></div>
-        </div>
         <div id="cardsGrid" class="grid"></div>
     </main>
 
@@ -483,9 +465,7 @@
 
         const API_URL = 'https://script.google.com/macros/s/AKfycbzVrZlaeYBvEnktjSmYkIAwlpFuTPO_mtQoLN0M2USVIkcGLtBU-vCd5GneRWI55McD/exec';
         const FALLBACK_URL = 'data/catalog.json';
-
-        // Плотность рекламы: 1 рекламная плитка на каждые AD_EVERY карточек
-        const AD_EVERY = 5;
+        const AD_EVERY = 5; // 1 рекламная плитка на каждые N карточек
 
         // ================= СИНОНИМЫ ПОИСКА =================
         const SYNONYMS = [
@@ -545,9 +525,41 @@
                 u.searchParams.set('utm_medium', 'catalog');
                 u.searchParams.set('utm_campaign', String(name || 'unknown').replace(/\s+/g, '_'));
                 return u.toString();
-            } catch (e) {
-                return url;
-            }
+            } catch (e) { return url; }
+        }
+
+        // ================= ИКОНКИ-БЕЙДЖИ (SVG, без эмодзи) =================
+        function svgPhone() {
+            return '<svg width="13" height="13" viewBox="0 0 24 24"><path d="M6.6 10.8c1.5 2.9 3.8 5.2 6.7 6.7l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.5c0-.6.4-1 1-1h3.3c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .7-.2 1z" fill="#7dd97d"/></svg>';
+        }
+        function svgMail() {
+            return '<svg width="13" height="13" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" fill="#4d9fff"/><path d="M3 7l9 6 9-6" stroke="#1c1c1c" stroke-width="2" fill="none"/></svg>';
+        }
+        function svgVK() {
+            return '<svg width="14" height="14" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#0077FF"/><text x="12" y="16.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle" font-family="Arial">VK</text></svg>';
+        }
+        function svgTG() {
+            return '<svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#2AABEE"/><path d="M17.5 7L5.8 11.6c-.6.2-.6.9 0 1.1l2.9 1 1.1 3.4c.2.5.8.6 1.2.2l1.6-1.6 3 2.2c.4.3 1 .1 1.1-.4l2-9.6c.1-.7-.5-1.1-1.2-.9z" fill="#fff"/></svg>';
+        }
+        function svgMax() {
+            return '<svg width="14" height="14" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#FF4D2E"/><text x="12" y="17" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle" font-family="Arial">M</text></svg>';
+        }
+        function svgWeb() {
+            return '<svg width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#a0a0a0" stroke-width="2"/><path d="M3.5 9h17M3.5 15h17M12 3c-3 3-3 15 0 18M12 3c3 3 3 15 0 18" stroke="#a0a0a0" stroke-width="1.4" fill="none"/></svg>';
+        }
+
+        function socialType(u) {
+            const s = String(u).toLowerCase();
+            if (s.includes('vk.com') || s.includes('vk.ru') || s.includes('vkontakte')) return 'vk';
+            if (s.includes('t.me') || s.includes('telegram') || s.includes('te.legra.ph')) return 'tg';
+            if (s.includes('max.ru') || s.includes('max.im')) return 'max';
+            return 'web';
+        }
+        function socialLabel(t) {
+            return { vk: 'ВК', tg: 'Телеграм', max: 'Мах', web: 'Сайт' }[t] || 'Сайт';
+        }
+        function socialIcon(t) {
+            return { vk: svgVK(), tg: svgTG(), max: svgMax(), web: svgWeb() }[t] || svgWeb();
         }
 
         // ================= ФИЛЬТРЫ =================
@@ -572,8 +584,8 @@
                 const budgets = [...new Set(allData.map(i => Number(i.price_from)).filter(n => n > 0))].sort((a, b) => a - b);
                 const bm = document.getElementById('budgetMin'), bx = document.getElementById('budgetMax');
                 budgets.forEach(v => {
-                    bm.insertAdjacentHTML('beforeend', '<option value="' + v + '">от ' + v.toLocaleString('ru-RU') + ' ₽</option>');
-                    bx.insertAdjacentHTML('beforeend', '<option value="' + v + '">до ' + v.toLocaleString('ru-RU') + ' ₽</option>');
+                    bm.insertAdjacentHTML('beforeend', '<option value="' + v + '">от ' + v.toLocaleString('ru-RU') + ' руб.</option>');
+                    bx.insertAdjacentHTML('beforeend', '<option value="' + v + '">до ' + v.toLocaleString('ru-RU') + ' руб.</option>');
                 });
             }
         }
@@ -664,7 +676,6 @@
 
             let cardIndex = 0;
             data.forEach(item => {
-                // Через каждые AD_EVERY карточек — рекламная плитка (не более 1 на 2 строки)
                 if (cardIndex > 0 && cardIndex % AD_EVERY === 0) {
                     grid.insertAdjacentHTML('beforeend', buildAdTile());
                 }
@@ -672,14 +683,36 @@
                 cardIndex++;
             });
 
-            // Навешиваем клик-переходы с UTM
             grid.querySelectorAll('.card[data-url]').forEach(card => {
-                const go = () => {
-                    window.open(card.dataset.url, '_blank', 'noopener');
-                };
+                const go = () => { window.open(card.dataset.url, '_blank', 'noopener'); };
                 card.addEventListener('click', go);
                 card.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
             });
+        }
+
+        // Блок контактов карточки: телефон, почта, соцсети с типом ресурса
+        function buildContacts(item) {
+            let html = '';
+            const parts = [];
+
+            if (item.phone) {
+                const cleanPhone = String(item.phone).replace(/\D/g, '');
+                parts.push('<a class="chip" href="tel:+' + cleanPhone + '">' + svgPhone() + '<span>' + escapeHtml(item.phone) + '</span></a>');
+            }
+            if (item.email) {
+                parts.push('<a class="chip" href="mailto:' + escapeHtml(item.email) + '">' + svgMail() + '<span>' + escapeHtml(item.email) + '</span></a>');
+            }
+
+            const rawLinks = String(item.social_links || '').split(/[\s,;]+/).filter(Boolean);
+            rawLinks.forEach(link => {
+                const t = socialType(link);
+                parts.push('<a class="chip" href="' + escapeHtml(buildUtmUrl(link, item.name)) + '" target="_blank" rel="noopener">' + socialIcon(t) + '<span>' + socialLabel(t) + '</span></a>');
+            });
+
+            if (parts.length) {
+                html = '<div class="contacts-block"><span class="c-label">Контакты:</span>' + parts.join('') + '</div>';
+            }
+            return html;
         }
 
         function buildCard(item) {
@@ -689,15 +722,15 @@
             const aMin = Number(item.audience_min);
             const aMax = Number(item.audience_max);
             const audience = (aMin && aMax)
-                ? '<div class="row">👥 Охват: ' + aMin.toLocaleString('ru-RU') + ' — ' + aMax.toLocaleString('ru-RU') + '</div>'
+                ? '<div class="row"><span>Охват: ' + aMin.toLocaleString('ru-RU') + ' — ' + aMax.toLocaleString('ru-RU') + '</span></div>'
                 : '';
 
             const price = item.price_from
-                ? '<div class="row"><span class="price">💰 от ' + item.price_from + ' ₽</span></div>'
+                ? '<div class="row"><span class="price">от ' + item.price_from + ' руб.</span></div>'
                 : '';
 
             const verified = item.status === 'Проверено'
-                ? '<div class="badge-verified">✅ Проверено</div>'
+                ? '<div class="badge-verified">✓ Проверено</div>'
                 : '';
 
             const desc = item.specialization
@@ -706,10 +739,11 @@
 
             return '<div class="card" data-url="' + escapeHtml(utmUrl) + '" tabindex="0" role="link" aria-label="' + escapeHtml(name) + '">' +
                 '<h4>' + escapeHtml(name) + '</h4>' +
-                '<div class="meta">📍 ' + escapeHtml(String(item.city || '')) + ', ' + escapeHtml(String(item.region || '')) + '</div>' +
+                '<div class="meta">' + escapeHtml(String(item.city || '')) + ', ' + escapeHtml(String(item.region || '')) + '</div>' +
                 desc +
                 audience +
                 price +
+                buildContacts(item) +
                 verified +
             '</div>';
         }
@@ -717,7 +751,7 @@
         function buildAdTile() {
             return '<div class="ad-tile">' +
                 '<div class="ad-label">Реклама</div>' +
-                '<div class="ad-placeholder">Здесь будет рекламный блок (РСЯ / VK).<br>Вставить код после модерации — см. комментарий в коде.</div>' +
+                '<div class="ad-placeholder">Рекламный блок (РСЯ / VK) — код вставляется после модерации.</div>' +
             '</div>';
         }
 
@@ -726,20 +760,19 @@
                 .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
-        // ================= ОКОШКИ «О ПРОЕКТЕ» =================
-        // Десктоп: чистый CSS hover. Тач: открытие/закрытие по тапу.
+        // ================= ОКОШКИ =================
         function setupPopovers() {
-            const items = document.querySelectorAll('.about-item');
+            const items = document.querySelectorAll('.nav-item');
             items.forEach(item => {
                 item.addEventListener('click', e => {
-                    if (e.target.closest('a')) return; // клики по ссылкам внутри окошка не трогаем
+                    if (e.target.closest('a') && item.classList.contains('premium')) return; // Premium — переход по ссылке
                     const wasOpen = item.classList.contains('open');
                     items.forEach(i => i.classList.remove('open'));
                     if (!wasOpen) item.classList.add('open');
                 });
             });
             document.addEventListener('click', e => {
-                if (!e.target.closest('.about-item')) {
+                if (!e.target.closest('.nav-item')) {
                     items.forEach(i => i.classList.remove('open'));
                 }
             });
