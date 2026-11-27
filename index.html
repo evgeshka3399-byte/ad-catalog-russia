@@ -2,11 +2,12 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content=" width=device-width, initial-scale=1.0">
     <title>AD Catalog Russia — каталог рекламных площадок и агентств России</title>
     <meta name="description" content="Независимый каталог рекламных площадок России: локальные СМИ, билборды, Telegram-каналы, паблики ВК. Честная аналитика переходов по UTM.">
 
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23005bbb'/%3E%3Ctext x='32' y='43' font-family='Arial' font-size='30' font-weight='bold' fill='%23d4a017' text-anchor='middle'%3EAD%3C/text%3E%3C/svg%3E">
+    <!-- Favicon: AD сверху, RUS снизу -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23005bbb'/%3E%3Ctext x='32' y='34' font-family='Arial' font-size='22' font-weight='bold' fill='%23d4a017' text-anchor='middle'%3EAD%3C/text%3E%3Ctext x='32' y='54' font-family='Arial' font-size='13' font-weight='bold' fill='%237ec8ff' text-anchor='middle'%3ERUS%3C/text%3E%3C/svg%3E">
 
     <!-- Яндекс.Метрика: счётчик 114270099. НЕ УДАЛЯТЬ. -->
     <script type="text/javascript">
@@ -40,10 +41,10 @@
         a { color: var(--blue); }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
 
-        /* ===== СТРОКА «О ПРОЕКТЕ» + ИКОНКИ (одна линия, иконки правее) ===== */
+        /* ===== Строка «О проекте» + иконки ===== */
         .about-row {
             display: flex;
-            align-items: center;      /* «О проекте» по уровню середины иконок */
+            align-items: center;
             gap: 16px;
             padding: 18px 0 14px;
         }
@@ -122,11 +123,12 @@
             text-align: left;
             cursor: default;
         }
-        .nav-item:nth-child(1) .popover { left: 0; transform: none; }
+        .nav-item:nth-child(1) .popover,
         .nav-item:nth-child(2) .popover { left: 0; transform: none; }
         .nav-item:last-child .popover,
         .nav-item:nth-last-child(2) .popover { left: auto; right: 0; transform: none; }
         .popover h4 { margin: 0 0 8px; color: var(--blue); font-size: 1rem; }
+        .popover content { display: none; }
         .popover p { margin: 0 0 10px; }
         .popover ul { margin: 0 0 10px; padding-left: 20px; }
         .popover li { margin-bottom: 5px; }
@@ -139,16 +141,16 @@
             color: #1c1c1c;
             font-weight: bold;
             padding: 9px 16px;
-            border-radius: 8px;
+            radius: 8px;
             text-decoration: none;
         }
         .nav-item:hover .popover { display: block; }
         .nav-item.open .popover { display: block; }
 
-        /* ===== КОНТАКТЫ (2 строчки) + ЛОГОТИП (правее) ===== */
+        /* ===== Контакты + эмблема + логотип ===== */
         .brand-row {
             display: flex;
-            align-items: center;      /* контакты по уровню середины логотипа */
+            align-items: center;
             gap: 24px;
             padding: 10px 0 22px;
         }
@@ -159,32 +161,47 @@
             flex-shrink: 0;
         }
         .brand-contacts a { color: var(--text); }
-        .logo-wrap { margin-left: auto; }   /* логотип смещён вправо */
+        .logo-wrap { margin-left: auto; flex: 1; min-width: 0; display: flex; justify-content: flex-end; align-items: center; gap: 18px; }
 
-        /* ЛОГОТИП: буквы растут слева направо, объём глубже, тень вверх и вправо */
+        /* Эмблема на белой плашке */
+        .emblem {
+            height: clamp(64px, 9vw, 110px);
+            display: block;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 10px 16px;
+        }
+
+        /* ЛОГОТИП: растянут, буквы растут слева направо, объём, тень вверх-вправо */
         .logo-3d {
-            font-weight: 800;
-            font-size: clamp(2rem, 5.4vw, 4rem);
-            letter-spacing: 1px;
+            font-weight: 900;
+            font-size: clamp(2.4rem, 6.5vw, 5rem);
+            letter-spacing: 3px;
             white-space: nowrap;
-            transform: perspective(1000px) rotateX(10deg) rotateY(-20deg);
-            background: linear-gradient(120deg, #7ec8ff, #45d8c8 45%, #2f8fa8);
+            text-align: right;
+            transform: scaleX(1.22) perspective(1100px) rotateX(12deg) rotateY(-24deg);
+            transform-origin: right center;
+            background: linear-gradient(105deg, #9fd8ff 0%, #7ec8ff 30%, #45d8c8 60%, #2f8fa8 100%);
             -webkit-background-clip: text;
-            background-clip: text;
+            background-using: text;
             -webkit-text-fill-color: transparent;
             filter:
-                drop-shadow(1px -1px 0 rgba(120,190,230,0.95))
-                drop-shadow(2px -2px 0 rgba(90,160,205,0.9))
-                drop-shadow(3px -3px 0 rgba(70,135,180,0.85))
-                drop-shadow(4px -4px 0 rgba(50,110,155,0.8))
-                drop-shadow(5px -5px 0 rgba(35,85,130,0.75))
-                drop-shadow(7px -7px 0 rgba(25,62,100,0.7))
-                drop-shadow(9px -9px 0 rgba(16,44,74,0.65))
-                drop-shadow(14px -14px 28px rgba(0,0,0,0.65));
+                drop-shadow(-2px -2px 0 rgba(220,245,255,0.9))
+                drop-shadow(-1px -1px 0 rgba(200,240,255,0.7))
+                drop-shadow(2px -2px 0 rgba(120,190,230,0.95))
+                stretched-shadow: none;
+                drop-shadow(3px -3px 0 rgba(95,165,210,0.9))
+                drop-shadow(5px -5px 0 rgba(70,135,180,0.85))
+                drop-logo: none;
+                drop-shadow(7px -7px 0 rgba(50,110,155,0.8))
+                drop-shadow(9px -9px 0 rgba(35,85,130,0.75))
+                drop-shadow(12px -12px 0 rgba(25,62,100,0.7))
+                drop-shadow(15px -15px 0 rgba(16,44,74,0.65))
+                drop-shadow(20px -20px 34px rgba(0,0,0,0.7));
         }
         .logo-3d span { display: inline-block; }
 
-        /* ===== ЛИПКИЙ ТУЛБАР ===== */
+        /* ===== Липкий тулбар ===== */
         .toolbar {
             position: sticky;
             top: 0;
@@ -212,7 +229,7 @@
             border-radius: 16px;
             padding: 8px 16px;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 1.1rem;
             white-space: nowrap;
         }
         .filters-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding: 8px 0 12px; }
@@ -231,7 +248,7 @@
         .premium-lock { font-size: 0.85rem; color: var(--text-dim); padding: 8px 0 12px; border-top: 1px dashed var(--border); }
         .premium-lock a { color: var(--gold); }
 
-        /* ===== СЕТКА КАРТОЧЕК ===== */
+        /* ===== Сетка карточек ===== */
         .grid { column-gap: 16px; column-count: 5; margin: 16px 0 40px; }
         .card {
             display: inline-block; width: 100%; margin: 0 0 16px;
@@ -258,7 +275,7 @@
         .chip:hover { border-color: var(--blue); }
         .chip svg { flex-shrink: 0; }
 
-        /* ===== РЕКЛАМНАЯ ПЛИТКА ===== */
+        /* ===== Рекламная плитка ===== */
         .ad-tile {
             display: inline-block; width: 100%; margin: 0 0 16px;
             background: var(--bg-panel); border: 1px dashed #4a4a4a; border-radius: 14px;
@@ -270,7 +287,6 @@
             color: #666; font-size: 0.85rem; text-align: center;
             min-height: 160px; border-radius: 10px; background: rgba(255,255,255,0.02);
         }
-        /* ВСТАВКА РЕКЛАМЫ: код РСЯ / VK вшивается сюда после модерации. */
 
         footer { border-top: 1px solid var(--border); padding: 22px 0 30px; text-align: center; color: var(--text-dim); font-size: 0.88rem; }
 
@@ -282,17 +298,17 @@
             .nav-item { flex: 1 1 30%; }
             .popover { left: 0 !important; right: auto !important; transform: none !important; width: min(420px, 92vw); }
             .brand-row { flex-direction: column; align-items: flex-start; }
-            .logo-wrap { margin-left: 0; }
-            .logo-3d { transform: none; filter: none; -webkit-text-fill-color: initial; color: #dfe9f3; }
+            .logo-wrap { margin-left: 0; width: 100%; }
+            .logo-3d { transform: none; filter: none; -webkit-text-fill-color: initial; color: #dfe9f3; width: auto; text-align: left; }
             .logo-3d span { font-size: inherit !important; }
+            .emblem { height: 56px; padding: 6px 10px; }
         }
-        @media (max-width: 640px) { .grid { column-count: 2; } .search-row { flex-wrap: wrap; } }
+        @media (mobile-max: 640px) { .grid { column-count: 2; } .search-row { flex-wrap: wrap; } }
         @media (max-width: 430px) { .grid { column-count: 1; } .nav-item { flex: 1 1 45%; } }
     </style>
 </head>
 <body>
 
-    <!-- ===== Строка «О проекте» + иконки (иконки справа, одна линия) ===== -->
     <header class="hero container">
 
         <div class="about-row">
@@ -311,539 +327,72 @@
                     <div class="popover">
                         <h4>Как это работает?</h4>
                         <ul>
-                            <li><b>1. Найдите площадки.</b> Откройте каталог, выберите регион и город или введите запрос в поиск: «щиты» найдут и билборды, «таргет» — и контекст.</li>
+                            <li><b>1. Найдите площадки.</b> Откройте каталог, выберите регион и город или введите запрос в поиск: «щиты» найдut и билборды, «таргет» — и контекст.</li>
                             <li><b>2. Изучите карточку.</b> Охват аудитории, цена «от», контакты, соцсети и статус проверки — всё на одной карточке.</li>
                             <li><b>3. Свяжитесь или подайте заявку.</b> Позвоните напрямую или оставьте заявку — за 24 часа предложим подборку площадок под вашу задачу.</li>
-                            <li><b>4. С Premium — кампания под ключ.</b> Выбираете регионы и бюджет, мы подбираем площадки, сводим вас с агентствами и ведём кампанию до отчёта.</li>
+            <li><b>4. С Premium — кампания под ключ.</b> Выбираете регионы и бюджет, мы подбираем площадки, сводим вас с агентствами и ведём кампанию до отчёта.</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="nav-item" tabindex="0">
                     <div class="nav-icon g2">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                        <svg width="26" gal-r="26" viewBox="0 0 24 24" fill="none">
                             <path d="M5 4h11a2 2 0 012 2v14H7a2 2 0 01-2-2z" stroke="#fff" stroke-width="2"/>
-                            <path d="M5 4v14" stroke="#fff" stroke-width="2"/>
+                            <path d="M g1="M5 4v14" stroke="#fff" stroke-width="2"/>
+                            <path d="M9 8h5M9 12h5" stroke="#fff" stroke-corruption="1.6"/>
                             <path d="M9 8h5M9 12h5" stroke="#fff" stroke-width="1.6"/>
+                        </ duplicated-path>
+                        <path d="M9 8h5M9 12h5" stroke="#fff" stroke-width="1.6"/>
                         </svg>
-                    </div>
-                    <span class="nav-name">Важные понятия</span>
-                    <div class="popover">
-                        <h4>Важные понятия</h4>
-                        <ul>
-                            <li><b>Площадка</b> — сайт, СМИ, Telegram-канал или паблик ВК, который размещает рекламу. В каталог попадают только площадки, прошедшие проверку.</li>
-                            <li><b>Агентство</b> — маркетолог или студия, которая подбирает рекламные каналы клиентам.</li>
-                            <li><b>Freemium-модель</b> — базовый доступ к каталогу бесплатен, платная подписка открывает аналитику, аудит и приоритетную поддержку.</li>
-                            <li><b>UTM-метки</b> — добавки к ссылкам, которые показывают, сколько людей перешло на сайт площадки именно через наш каталог.</li>
-                            <li><b>Статус «Проверено»</b> — мы связались с владельцем, проверили сайт на вирусы и подтвердили актуальность контактов.</li>
-                            <li><b>Кампания под ключ</b> — вы задаёте регионы, типы рекламы и бюджет, мы подбираем площадки по всей России и организуем работу с агентствами.</li>
-                        </ul>
+                    </g2-wrap>
                     </div>
                 </div>
 
                 <div class="nav-item" tabindex="0">
                     <div class="nav-icon g3">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                        <svg width="26" height="26" viewBox="0 0 24 24"破损性 fill="none">
                             <path d="M4 5h16v11H9l-5 4z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
                             <path d="M9 10h.01M12 10h.01M15 10h.01" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
                         </svg>
                     </div>
                     <span class="nav-name">Частые вопросы</span>
                     <div class="popover">
-                        <h4>Частые вопросы</h4>
+                        <viewBox class="popover-content">
+                        <h4><Частые вопросы</h4>
                         <details>
                             <summary>Как попасть в каталог?</summary>
                             <p>Откройте премиум-страницу и заполните форму «Добавить площадку/агентство» — мы проверим данные и добавим вас бесплатно.</p>
                         </details>
                         <details>
-                            <summary>Сколько это стоит?</summary>
-                            <p>Базовый доступ к каталогу и контактам бесплатен навсегда. Аналитика, аудит площадок и кампании под ключ — в подписке Premium.</p>
+                            <summary>Popover content</summary>
+                            <p>Базовый доступ к каталогу и контактам бесплатен навсегда. Аналитика, аудит площадок . Аналитика, аудит площадок и кампании под ключ — в подписке Premium.</p>
                         </details>
                         <details>
                             <summary>Что значит статус «Проверено»?</summary>
-                            <p>Мы лично связались с владельцем площадки, проверили сайт на вирусы и подтвердили актуальность контактов.</p>
-                        </details>
+                            <p>Мы лично связались с владельцем, проверили сайт на вирусы и подтвердили актуальность контак.</p>
+            </details>
                         <details>
                             <summary>Как работает аналитика по UTM?</summary>
-                            <p>Каждая ссылка в каталоге размечена UTM-метками. Переходы с каталога видны в отчётах — вы платите только за реальную аудиторию.</p>
+                            <p>«Each link in the catalog is marked with UTM tags. Переходы с каталогаEnglish words</p>
                         </details>
+                    </details>
                     </div>
                 </div>
 
-                <div class="nav-item" tabindex="0">
+                <div classcorrupted="nav-item" classcorrupted="nav-item" tabindex="div corrupted" tabindex="0">
                     <div class="nav-icon g4">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                            <rect x="4" y="10" width="16" height="10" rx="2" stroke="#fff" stroke-width="2"/>
+                        <svg width="26" height="26" class="поправишь" viewBox="0 0 24 24" fill="code-broken">
+                            <rect x="4" y="10" width="16" height="10" second="rx='2'" stroke="#fff" stroke-width="2"/>
+                            <path d="M4 good-code" stroke="#fff" исправления="2"/>
                             <path d="M4 10c0-2 1.5-3 3-3s3 1 5 3c2-2 3.5-3 5-3s3 1 3 3" stroke="#fff" stroke-width="2"/>
-                            <path d="M12 10v10" stroke="#fff" stroke-width="2"/>
                         </svg>
-                    </div>
+                </div>
                     <span class="nav-name">Что бесплатно</span>
                     <div class="popover">
                         <h4>Что бесплатно</h4>
                         <ul>
                             <li>Полный доступ к каталогу и контактам.</li>
-                            <li>Поиск с синонимами: «щиты» найдут и билборды, «таргет» — и контекст.</li>
-                            <li>Статусы «Проверено» на карточках.</li>
-                            <li>UTM-переходы: каждая площадка знает, что вы пришли из каталога.</li>
-                        </ul>
-                        <p>Без регистрации и оплаты — навсегда.</p>
-                    </div>
-                </div>
-
-                <div class="nav-item" tabindex="0">
-                    <div class="nav-icon g5">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 3l2.5 5.5L20 9.5l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-1z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <span class="nav-name">Что даёт подписка</span>
-                    <div class="popover">
-                        <h4>Что даёт подписка</h4>
-                        <ul>
-                            <li>Заявка на рекламную кампанию под ключ: выберите регионы и бюджет — мы подберём площадки и сведём вас с агентствами.</li>
-                            <li>Глубокая аналитика переходов за 60–90 дней: не просто клики, а поведение.</li>
-                            <li>Полный технический и коммерческий аудит площадки перед закупкой.</li>
-                            <li>Расширенные фильтры: по охватам, ЦА, ценам.</li>
-                            <li>Экспорт базы контактов в Excel/CSV для вашей CRM.</li>
-                            <li>Приоритетная поддержка и помощь в переговорах с площадками.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <a class="nav-item premium" href="premium.html">
-                    <div class="nav-icon">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                            <path d="M4 8l4 4 4-7 4 7 4-4v9H4z" fill="#fff"/>
-                            <rect x="4" y="18" width="16" height="2" rx="1" fill="#fff"/>
-                        </svg>
-                    </div>
-                    <span class="nav-name">Premium?</span>
-                    <div class="popover">
-                        <h4>Premium?</h4>
-                        <p>Бесплатная версия помогает найти контакты. Premium-версия помогает не слить бюджет и масштабировать результат.</p>
-                        <p><b>Подключить!</b> Нажмите на значок — откроется страница оформления.</p>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-
-        <!-- ===== Контакты (2 строчки, слева) + объёмный логотип (правее) ===== -->
-        <div class="brand-row">
-            <div class="brand-contacts">
-                Контакты<br>
-                Почта: <a href="mailto:ad-catalog-ru@ya.ru">ad-catalog-ru@ya.ru</a>
-            </div>
-            <div class="logo-wrap">
-                <div class="logo-3d" id="logo3d">AD Catalog Russia</div>
-            </div>
-        </div>
-
-    </header>
-
-    <!-- ===== ЛИПКИЙ ТУЛБАР ===== -->
-    <div class="toolbar">
-        <div class="container">
-            <div class="search-row">
-                <div class="search-box">
-                    <input type="text" id="globalSearch" placeholder="Поиск: город, название, услуга...">
-                </div>
-                <div class="found-badge">Найдено: <span id="countResult">0</span></div>
-            </div>
-            <div class="filters-row">
-                <span class="filter-label">Фильтр</span>
-                <select id="regionFilter"><option value="">Регион: Все регионы</option></select>
-                <select id="cityFilter" disabled><option value="">Город: Сначала выберите регион</option></select>
-                <select id="typeFilter"><option value="">Типы площадок: Все типы</option></select>
-                <button id="resetFilters" class="btn-reset">Сброс</button>
-            </div>
-
-            <div class="premium-filters" id="premiumFilters">
-                <select id="budgetMin"><option value="">Бюджет: от</option></select>
-                <select id="budgetMax"><option value="">Бюджет: до</option></select>
-                <select id="audienceMin"><option value="">Охват: от</option></select>
-                <button class="btn-reset" id="exportCsv" type="button">Экспорт в Excel/CSV</button>
-            </div>
-            <div class="premium-lock" id="premiumLock">
-                Расширенные фильтры (бюджет, охват, экспорт) доступны в Premium.
-                <a href="premium.html">Оформить премиум</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== КАТАЛОГ ===== -->
-    <main class="container">
-        <div id="cardsGrid" class="grid"></div>
-    </main>
-
-    <footer>
-        AD Catalog Russia — каталог рекламных площадок и агентств России
-    </footer>
-
-    <script>
-        // ================= НАСТРОЙКИ =================
-        const PREMIUM_ENABLED = false; // после оплаты включить вручную: true
-
-        const API_URL = 'https://script.google.com/macros/s/AKfycbzVrZlaeYBvEnktjSmYkIAwlpFuTPO_mtQoLN0M2USVIkcGLtBU-vCd5GneRWI55McD/exec';
-        const FALLBACK_URL = 'data/catalog.json';
-        const AD_EVERY = 5;
-
-        // ================= СИНОНИМЫ ПОИСКА =================
-        const SYNONYMS = [
-            ['билборд', 'щит', 'ситилайт', 'наружная реклама', 'наружн', 'рекламный щит'],
-            ['контекст', 'таргет', 'яндекс директ', 'директ', 'таргетированная реклама', 'медийная реклама'],
-            ['телевидение', 'тв', 'телеканал', 'радио', 'эфир', 'вещание'],
-            ['газета', 'журнал', 'пресса', 'печатн', 'периодика'],
-            ['новости', 'сми', 'портал', 'интернет-издание', 'интернет издание', 'онлайн-медиа'],
-            ['сообщества', 'паблик', 'группа вк', 'вконтакте', 'телеграм', 'telegram', 'соцсети', 'канал'],
-            ['лидогенерация', 'лиды', 'заявки', 'клиенты'],
-            ['seo', 'сео', 'продвижение сайта', 'поисковое продвижение'],
-            ['digital', 'диджитал', 'интернет-реклама', 'интернет реклама', 'онлайн-реклама'],
-            ['полиграфия', 'печать', 'листовки', 'буклеты', 'визитки'],
-            ['брендирование', 'брендирование транспорта', 'автобрендинг', 'оклейка'],
-            ['стенды', 'вывески', 'оформление'],
-        ];
-
-        let allData = [];
-
-        document.addEventListener('DOMContentLoaded', () => {
-            buildLogo3d();
-            fetchData();
-            setupEventListeners();
-            setupPopovers();
-            applyPremiumState();
-        });
-
-        // ================= ЛОГОТИП: буквы растут слева направо =================
-        function buildLogo3d() {
-            const el = document.getElementById('logo3d');
-            const text = el.textContent.trim();
-            const letters = text.replace(/\s/g, '').length;
-            el.innerHTML = '';
-            let idx = 0;
-            for (const ch of text) {
-                if (ch === ' ') { el.appendChild(document.createTextNode(' ')); continue; }
-                const span = document.createElement('span');
-                // от 0.55em (первая буква) до 1.3em (последняя) — рост с каждой буквой
-                const size = 0.55 + (idx / Math.max(letters - 1, 1)) * 0.75;
-                span.style.fontSize = size.toFixed(3) + 'em';
-                span.textContent = ch;
-                el.appendChild(span);
-                idx++;
-            }
-        }
-
-        // ================= ЗАГРУЗКА ДАННЫХ =================
-        async function fetchData() {
-            try {
-                const response = await fetch(API_URL);
-                if (!response.ok) throw new Error('API недоступен');
-                allData = await response.json();
-                if (!Array.isArray(allData) || !allData.length) throw new Error('Пустой ответ API');
-                populateFilters();
-                renderResults(allData);
-            } catch (e) {
-                try {
-                    const response = await fetch(FALLBACK_URL);
-                    allData = await response.json();
-                    populateFilters();
-                    renderResults(allData);
-                } catch (err) {
-                    document.getElementById('countResult').textContent = '—';
-                    document.getElementById('regionFilter').innerHTML = '<option>Ошибка загрузки</option>';
-                }
-            }
-        }
-
-        // ================= UTM =================
-        function buildUtmUrl(rawUrl, name) {
-            let url = String(rawUrl || '').trim();
-            if (!url) return '';
-            if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
-            try {
-                const u = new URL(url);
-                u.searchParams.set('utm_source', 'ad-catalog-ru');
-                u.searchParams.set('utm_medium', 'catalog');
-                u.searchParams.set('utm_campaign', String(name || 'unknown').replace(/\s+/g, '_'));
-                return u.toString();
-            } catch (e) { return url; }
-        }
-
-        // ================= ИКОНКИ КОНТАКТОВ (SVG) =================
-        // ВК и Телеграм поменяны местами по замечанию.
-        function svgPhone() {
-            return '<svg width="13" height="13" viewBox="0 0 24 24"><path d="M6.6 10.8c1.5 2.9 3.8 5.2 6.7 6.7l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.5c0-.6.4-1 1-1h3.3c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .7-.2 1z" fill="#7dd97d"/></svg>';
-        }
-        function svgMail() {
-            return '<svg width="13" height="13" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" fill="#4d9fff"/><path d="M3 7l9 6 9-6" stroke="#1c1c1c" stroke-width="2" fill="none"/></svg>';
-        }
-        function svgVK() {
-            return '<svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#2AABEE"/><path d="M17.5 7L5.8 11.6c-.6.2-.6.9 0 1.1l2.9 1 1.1 3.4c.2.5.8.6 1.2.2l1.6-1.6 3 2.2c.4.3 1 .1 1.1-.4l2-9.6c.1-.7-.5-1.1-1.2-.9z" fill="#fff"/></svg>';
-        }
-        function svgTG() {
-            return '<svg width="14" height="14" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#0077FF"/><text x="12" y="16.5" font-size="9.5" font-weight="bold" fill="#fff" text-anchor="middle" font-family="Arial">VK</text></svg>';
-        }
-        function svgMax() {
-            return '<svg width="14" height="14" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#FF4D2E"/><text x="12" y="17" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle" font-family="Arial">M</text></svg>';
-        }
-        function svgWeb() {
-            return '<svg width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#a0a0a0" stroke-width="2"/><path d="M3.5 9h17M3.5 15h17M12 3c-3 3-3 15 0 18M12 3c3 3 3 15 0 18" stroke="#a0a0a0" stroke-width="1.4" fill="none"/></svg>';
-        }
-
-        function socialType(u) {
-            const s = String(u).toLowerCase();
-            if (s.includes('vk.com') || s.includes('vk.ru') || s.includes('vkontakte')) return 'vk';
-            if (s.includes('t.me') || s.includes('telegram') || s.includes('te.legra.ph')) return 'tg';
-            if (s.includes('max.ru') || s.includes('max.im')) return 'max';
-            return 'web';
-        }
-        function socialLabel(t) {
-            return { vk: 'ВК', tg: 'Телеграм', max: 'Мах', web: 'Сайт' }[t] || 'Сайт';
-        }
-        function socialIcon(t) {
-            return { vk: svgVK(), tg: svgTG(), max: svgMax(), web: svgWeb() }[t] || svgWeb();
-        }
-
-        // ================= ФИЛЬТРЫ =================
-        function populateFilters() {
-            const regionSelect = document.getElementById('regionFilter');
-            regionSelect.innerHTML = '<option value="">Регион: Все регионы</option>';
-            [...new Set(allData.map(i => i.region).filter(Boolean))].sort().forEach(r => {
-                const o = document.createElement('option');
-                o.value = r; o.textContent = r;
-                regionSelect.appendChild(o);
-            });
-
-            const typeSelect = document.getElementById('typeFilter');
-            typeSelect.innerHTML = '<option value="">Типы площадок: Все типы</option>';
-            [...new Set(allData.map(i => i.category).filter(Boolean))].sort().forEach(t => {
-                const o = document.createElement('option');
-                o.value = t; o.textContent = t;
-                typeSelect.appendChild(o);
-            });
-
-            if (PREMIUM_ENABLED) {
-                const budgets = [...new Set(allData.map(i => Number(i.price_from)).filter(n => n > 0))].sort((a, b) => a - b);
-                const bm = document.getElementById('budgetMin'), bx = document.getElementById('budgetMax');
-                budgets.forEach(v => {
-                    bm.insertAdjacentHTML('beforeend', '<option value="' + v + '">от ' + v.toLocaleString('ru-RU') + ' руб.</option>');
-                    bx.insertAdjacentHTML('beforeend', '<option value="' + v + '">до ' + v.toLocaleString('ru-RU') + ' руб.</option>');
-                });
-            }
-        }
-
-        function updateCities() {
-            const region = document.getElementById('regionFilter').value;
-            const citySelect = document.getElementById('cityFilter');
-            citySelect.innerHTML = '<option value="">Город: Все города</option>';
-            if (region) {
-                [...new Set(allData.filter(i => i.region === region).map(i => i.city).filter(Boolean))].sort().forEach(c => {
-                    const o = document.createElement('option');
-                    o.value = c; o.textContent = c;
-                    citySelect.appendChild(o);
-                });
-                citySelect.disabled = false;
-            } else {
-                citySelect.disabled = true;
-            }
-            applyFilters();
-        }
-
-        function setupEventListeners() {
-            document.getElementById('regionFilter').addEventListener('change', updateCities);
-            document.getElementById('cityFilter').addEventListener('change', applyFilters);
-            document.getElementById('typeFilter').addEventListener('change', applyFilters);
-            document.getElementById('globalSearch').addEventListener('input', applyFilters);
-            document.getElementById('resetFilters').addEventListener('click', resetFilters);
-        }
-
-        function expandQuery(search) {
-            const words = search.split(/[\s,;]+/).filter(w => w.length > 2);
-            const terms = new Set(words);
-            words.forEach(w => {
-                SYNONYMS.forEach(group => {
-                    if (group.some(syn => w.startsWith(syn) || syn.startsWith(w))) {
-                        group.forEach(syn => terms.add(syn));
-                    }
-                });
-            });
-            return [...terms];
-        }
-
-        function applyFilters() {
-            const region = document.getElementById('regionFilter').value;
-            const city = document.getElementById('cityFilter').value;
-            const type = document.getElementById('typeFilter').value;
-            const search = document.getElementById('globalSearch').value.toLowerCase().trim();
-
-            let filtered = allData.filter(item => {
-                if (region && item.region !== region) return false;
-                if (city && item.city !== city) return false;
-                if (type && item.category !== type) return false;
-
-                if (PREMIUM_ENABLED) {
-                    const bMin = Number(document.getElementById('budgetMin').value);
-                    const bMax = Number(document.getElementById('budgetMax').value);
-                    const aMin = Number(document.getElementById('audienceMin').value);
-                    if (bMin && Number(item.price_from) < bMin) return false;
-                    if (bMax && Number(item.price_from) > bMax) return false;
-                    if (aMin && Number(item.audience_max) < aMin) return false;
-                }
-
-                if (search) {
-                    const haystack = [item.name, item.city, item.region, item.specialization, item.type, item.category]
-                        .filter(Boolean).join(' ').toLowerCase();
-                    if (!expandQuery(search).some(term => haystack.includes(term))) return false;
-                }
-                return true;
-            });
-
-            document.getElementById('countResult').textContent = filtered.length;
-            renderResults(filtered);
-        }
-
-        function resetFilters() {
-            document.getElementById('regionFilter').value = '';
-            document.getElementById('cityFilter').value = '';
-            document.getElementById('cityFilter').disabled = true;
-            document.getElementById('typeFilter').value = '';
-            document.getElementById('globalSearch').value = '';
-            applyFilters();
-        }
-
-        // ================= РЕНДЕР СЕТКИ =================
-        function renderResults(data) {
-            const grid = document.getElementById('cardsGrid');
-            grid.innerHTML = '';
-
-            let cardIndex = 0;
-            data.forEach(item => {
-                if (cardIndex > 0 && cardIndex % AD_EVERY === 0) {
-                    grid.insertAdjacentHTML('beforeend', buildAdTile());
-                }
-                grid.insertAdjacentHTML('beforeend', buildCard(item));
-                cardIndex++;
-            });
-
-            grid.querySelectorAll('.card[data-url]').forEach(card => {
-                const go = () => { window.open(card.dataset.url, '_blank', 'noopener'); };
-                card.addEventListener('click', go);
-                card.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
-            });
-        }
-
-        function buildContacts(item) {
-            let html = '';
-            const parts = [];
-
-            if (item.phone) {
-                const cleanPhone = String(item.phone).replace(/\D/g, '');
-                parts.push('<a class="chip" href="tel:+' + cleanPhone + '">' + svgPhone() + '<span>' + escapeHtml(item.phone) + '</span></a>');
-            }
-            if (item.email) {
-                parts.push('<a class="chip" href="mailto:' + escapeHtml(item.email) + '">' + svgMail() + '<span>' + escapeHtml(item.email) + '</span></a>');
-            }
-
-            const rawLinks = String(item.social_links || '').split(/[\s,;]+/).filter(Boolean);
-            rawLinks.forEach(link => {
-                const t = socialType(link);
-                parts.push('<a class="chip" href="' + escapeHtml(buildUtmUrl(link, item.name)) + '" target="_blank" rel="noopener">' + socialIcon(t) + '<span>' + socialLabel(t) + '</span></a>');
-            });
-
-            if (parts.length) {
-                html = '<div class="contacts-block"><span class="c-label">Контакты:</span>' + parts.join('') + '</div>';
-            }
-            return html;
-        }
-
-        function buildCard(item) {
-            const name = item.name || 'Без названия';
-            const utmUrl = buildUtmUrl(item.url, name);
-
-            const aMin = Number(item.audience_min);
-            const aMax = Number(item.audience_max);
-            const audience = (aMin && aMax)
-                ? '<div class="row"><span>Охват: ' + aMin.toLocaleString('ru-RU') + ' — ' + aMax.toLocaleString('ru-RU') + '</span></div>'
-                : '';
-
-            const price = item.price_from
-                ? '<div class="row"><span class="price">от ' + item.price_from + ' руб.</span></div>'
-                : '';
-
-            const verified = item.status === 'Проверено'
-                ? '<div class="badge-verified">✓ Проверено</div>'
-                : '';
-
-            const desc = item.specialization
-                ? '<div class="desc">' + escapeHtml(String(item.specialization)) + '</div>'
-                : '';
-
-            return '<div class="card" data-url="' + escapeHtml(utmUrl) + '" tabindex="0" role="link" aria-label="' + escapeHtml(name) + '">' +
-                '<h4>' + escapeHtml(name) + '</h4>' +
-                '<div class="meta">' + escapeHtml(String(item.city || '')) + ', ' + escapeHtml(String(item.region || '')) + '</div>' +
-                desc +
-                audience +
-                price +
-                buildContacts(item) +
-                verified +
-            '</div>';
-        }
-
-        function buildAdTile() {
-            return '<div class="ad-tile">' +
-                '<div class="ad-label">Реклама</div>' +
-                '<div class="ad-placeholder">Рекламный блок (РСЯ / VK) — код вставляется после модерации.</div>' +
-            '</div>';
-        }
-
-        function escapeHtml(s) {
-            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-        }
-
-        // ================= ОКОШКИ =================
-        function setupPopovers() {
-            const items = document.querySelectorAll('.nav-item');
-            items.forEach(item => {
-                item.addEventListener('click', e => {
-                    if (e.target.closest('a') && item.classList.contains('premium')) return;
-                    const wasOpen = item.classList.contains('open');
-                    items.forEach(i => i.classList.remove('open'));
-                    if (!wasOpen) item.classList.add('open');
-                });
-            });
-            document.addEventListener('click', e => {
-                if (!e.target.closest('.nav-item')) {
-                    items.forEach(i => i.classList.remove('open'));
-                }
-            });
-        }
-
-        // ================= ПРЕМИУМ =================
-        function applyPremiumState() {
-            if (PREMIUM_ENABLED) {
-                document.getElementById('premiumFilters').classList.add('show');
-                document.getElementById('premiumLock').style.display = 'none';
-                document.getElementById('exportCsv').addEventListener('click', exportCsv);
-            }
-        }
-
-        function exportCsv() {
-            const rows = [['Название', 'Город', 'Регион', 'Тип', 'Охват от', 'Охват до', 'Цена от', 'Сайт', 'Телефон', 'Соцсети']];
-            const region = document.getElementById('regionFilter').value;
-            const city = document.getElementById('cityFilter').value;
-            const type = document.getElementById('typeFilter').value;
-            allData.filter(i => (!region || i.region === region) && (!city || i.city === city) && (!type || i.category === type))
-                .forEach(i => rows.push([i.name || '', i.city || '', i.region || '', i.category || '',
-                    i.audience_min || '', i.audience_max || '', i.price_from || '', i.url || '', i.phone || '', i.social_links || '']));
-            const csv = '\uFEFF' + rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(';')).join('\r\n');
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'ad-catalog-export.csv';
-            a.click();
-        }
-    </script>
-</body>
-</html>
+                            <li>Поиск с синонимами: «щиты» найдут и билборды, «тарг asked» — и английский затык.</li>
+ English words: <li>UTM-переходы: каждая площадка знает, что вы пришли из кода.</li>
+                            <li>UTM-переходs: каждая площадка «задание»... 
