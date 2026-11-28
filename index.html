@@ -6,8 +6,7 @@
     <title>AD Catalog Russia — каталог рекламных площадок и агентств России</title>
     <meta name="description" content="Независимый каталог рекламных площадок России: локальные СМИ, билборды, Telegram-каналы, паблики ВК. Честная аналитика переходов по UTM.">
 
-    <!-- Favicon: AD сверху, RUS снизу -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23005bbb'/%3E%3Ctext x='32' y='34' font-family='Arial' font-size='22' font-weight='bold' fill='%23d4a017' text-anchor='middle'%3EAD%3C/text%3E%3Ctext x='32' y='54' font-family='Arial' font-size='13' font-weight='bold' fill='%237ec8ff' text-anchor='middle'%3ERUS%3C/text%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23005bbb'/%3E%3Ctext x='32' y='43' font-family='Arial' font-size='30' font-weight='bold' fill='%23d4a017' text-anchor='middle'%3EAD%3C/text%3E%3C/svg%3E">
 
     <!-- Яндекс.Метрика: счётчик 114270099. НЕ УДАЛЯТЬ. -->
     <script type="text/javascript">
@@ -41,10 +40,10 @@
         a { color: var(--blue); }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
 
-        /* ===== Строка «О проекте» + иконки ===== */
+        /* ===== СТРОКА «О ПРОЕКТЕ» + ИКОНКИ (одна линия, иконки правее) ===== */
         .about-row {
             display: flex;
-            align-items: center;
+            align-items: center;      /* «О проекте» по уровню середины иконок */
             gap: 16px;
             padding: 18px 0 14px;
         }
@@ -123,7 +122,7 @@
             text-align: left;
             cursor: default;
         }
-        .nav-item:nth-child(1) .popover,
+        .nav-item:nth-child(1) .popover { left: 0; transform: none; }
         .nav-item:nth-child(2) .popover { left: 0; transform: none; }
         .nav-item:last-child .popover,
         .nav-item:nth-last-child(2) .popover { left: auto; right: 0; transform: none; }
@@ -146,10 +145,10 @@
         .nav-item:hover .popover { display: block; }
         .nav-item.open .popover { display: block; }
 
-        /* ===== Контакты + логотип ===== */
+        /* ===== КОНТАКТЫ (2 строчки) + ЛОГОТИП (правее) ===== */
         .brand-row {
             display: flex;
-            align-items: center;
+            align-items: center;      /* контакты по уровню середины логотипа */
             gap: 24px;
             padding: 10px 0 22px;
         }
@@ -160,48 +159,16 @@
             flex-shrink: 0;
         }
         .brand-contacts a { color: var(--text); }
-        .logo-wrap {
-            margin-left: auto; flex: 1; min-width: 0;
-            display: flex; justify-content: flex-end; align-items: center; gap: 18px;
-        }
+        .logo-wrap { margin-left: auto; }   /* логотип смещён вправо */
 
-        /* ЭМБЛЕМА ADRUS: чёрный фон картинки растворяется в фоне сайта
-           (mix-blend-mode: screen — чёрные пиксели становятся прозрачными,
-           белые буквы и оранжевая стрелка остаются). Без плашки и стыков. */
-        .emblem {
-            height: clamp(64px, 9vw, 110px);
+        /* ЛОГОТИП: картинка из репозитория (adrus-logo.png) */
+        .logo-img {
             display: block;
-            mix-blend-mode: screen;
+            height: clamp(48px, 8.5vw, 110px);
+            width: auto;
         }
 
-        /* ЛОГОТИП: растянут, буквы растут слева направо, объём, тень вверх-вправо */
-        .logo-3d {
-            font-weight: 900;
-            font-size: clamp(2.4rem, 6.5vw, 5rem);
-            letter-spacing: 3px;
-            white-space: nowrap;
-            text-align: right;
-            transform: scaleX(1.22) perspective(1100px) rotateX(12deg) rotateY(-24deg);
-            transform-origin: right center;
-            background: linear-gradient(105deg, #9fd8ff 0%, #7ec8ff 30%, #45d8c8 60%, #2f8fa8 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter:
-                drop-shadow(-2px -2px 0 rgba(220,245,255,0.9))
-                drop-shadow(-1px -1px 0 rgba(200,240,255,0.7))
-                drop-shadow(2px -2px 0 rgba(120,190,230,0.95))
-                drop-shadow(3px -3px 0 rgba(95,165,210,0.9))
-                drop-shadow(5px -5px 0 rgba(70,135,180,0.85))
-                drop-shadow(7px -7px 0 rgba(50,110,155,0.8))
-                drop-shadow(9px -9px 0 rgba(35,85,130,0.75))
-                drop-shadow(12px -12px 0 rgba(25,62,100,0.7))
-                drop-shadow(15px -15px 0 rgba(16,44,74,0.65))
-                drop-shadow(20px -20px 34px rgba(0,0,0,0.7));
-        }
-        .logo-3d span { display: inline-block; }
-
-        /* ===== Липкий тулбар ===== */
+        /* ===== ЛИПКИЙ ТУЛБАР ===== */
         .toolbar {
             position: sticky;
             top: 0;
@@ -229,7 +196,7 @@
             border-radius: 16px;
             padding: 8px 16px;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             white-space: nowrap;
         }
         .filters-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding: 8px 0 12px; }
@@ -245,153 +212,6 @@
         .premium-filters { display: none; gap: 10px; flex-wrap: wrap; padding: 0 0 12px; border-top: 1px dashed var(--border); }
         .premium-filters.show { display: flex; }
         .premium-filters select { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: #1f1f1f; color: var(--text); }
-        .premium-lock { font-size: 0.85rem; color: var(--text-dim); padding: 8px 0 12px; border-top: 1px dashed var(--border); }
-        .premium-lock a { color: var(--gold); }
-
-        /* ===== Сетка карточек ===== */
-        .grid { column-gap: 16px; column-count: 5; margin: 16px 0 40px; }
-        .card {
-            display: inline-block; width: 100%; margin: 0 0 16px;
-            background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
-            padding: 16px; cursor: pointer; break-inside: avoid;
-            transition: background 0.15s, transform 0.12s;
-        }
-        .card:hover { background: var(--bg-card-hover); transform: translateY(-2px); }
-        .card h4 { margin: 0 0 6px; color: var(--blue); font-size: 1.02rem; }
-        .card .meta { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 6px; }
-        .card .desc { font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px; }
-        .card .row { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.85rem; margin-bottom: 4px; }
-        .card .price { color: #7dd97d; font-weight: bold; }
-        .card .badge-verified { color: var(--green); font-size: 0.8rem; margin-top: 8px; }
-
-        .contacts-block { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-        .contacts-block .c-label { font-size: 0.75rem; color: var(--text-dim); width: 100%; }
-        .chip {
-            display: inline-flex; align-items: center; gap: 5px;
-            background: #1f1f1f; border: 1px solid var(--border);
-            border-radius: 12px; padding: 4px 9px;
-            font-size: 0.78rem; color: var(--text); text-decoration: none;
-        }
-        .chip:hover { border-color: var(--blue); }
-        .chip svg { flex-shrink: 0; }
-
-        /* ===== Рекламная плитка ===== */
-        .ad-tile {
-            display: inline-block; width: 100%; margin: 0 0 16px;
-            background: var(--bg-panel); border: 1px dashed #4a4a4a; border-radius: 14px;
-            padding: 16px; break-inside: avoid; min-height: 220px;
-        }
-        .ad-tile .ad-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .ad-tile .ad-placeholder {
-            display: flex; align-items: center; justify-content: center;
-            color: #666; font-size: 0.85rem; text-align: center;
-            min-height: 160px; border-radius: 10px; background: rgba(255,255,255,0.02);
-        }
-        /* ВСТАВКА РЕКЛАМЫ: код РСЯ / VK вшивается сюда после модерации. */
-
-        footer { border-top: 1px solid var(--border); padding: 22px 0 30px; text-align: center; color: var(--text-dim); font-size: 0.88rem; }
-
-        @media (max-width: 1100px) { .grid { column-count: 4; } }
-        @media (max-width: 860px)  { .grid { column-count: 3; } }
-        @media (max-width: 760px) {
-            .about-row { flex-wrap: wrap; }
-            .nav-icons { flex-wrap: wrap; }
-            .nav-item { flex: 1 1 30%; }
-            .popover { left: 0 !important; right: auto !important; transform: none !important; width: min(420px, 92vw); }
-            .brand-row { flex-direction: column; align-items: flex-start; }
-            .logo-wrap { margin-left: 0; width: 100%; flex-wrap: wrap; }
-            .logo-3d { transform: none; filter: none; -webkit-text-fill-color: initial; color: #dfe9f3; width: auto; text-align: left; }
-            .logo-3d span { font-size: inherit !important; }
-            .emblem { height: 56px; }
-        }
-        @media (max-width: 640px) { .grid { column-count: 2; } .search-row { flex-wrap: wrap; } }
-        @media (max-width: 430px) { .grid { column-count: 1; } .nav-item { flex: 1 1 45%; } }
-    </style>
-</head>
-<body>
-
-    <header class="hero container">
-
-        <!-- ===== Строка «О проекте» + иконки с всплывающими окошками ===== -->
-        <div class="about-row">
-            <span class="about-label">О проекте:</span>
-
-            <div class="nav-icons" id="aboutRow">
-
-                <div class="nav-item" tabindex="0">
-                    <div class="nav-icon g1">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2"/>
-                            <path d="M15.5 8.5l-2.2 5-5 2.2 2.2-5z" fill="#fff"/>
-                        </svg>
-                    </div>
-                    <span class="nav-name">Как это работает?</span>
-                    <div class="popover">
-                        <h4>Как это работает?</h4>
-                        <ul>
-                            <li><b>1. Найдите площадки.</b> Откройте каталог, выберите регион и город или введите запрос в поиск: «щиты» найдут и билборды, «таргет» — и контекст.</li>
-                            <li><b>2. Изучите карточку.</b> Охват аудитории, цена «от», контакты, соцсети и статус проверки — всё на одной карточке.</li>
-                            <li><b>3. Свяжитесь или подайте заявку.</b> Позвоните напрямую или оставьте заявку — за 24 часа предложим подборку площадок под вашу задачу.</li>
-                            <li><b>4. С Premium — кампания под ключ.</b> Выбираете регионы и бюджет, мы подбираем площадки, сводим вас с агентствами и ведём кампанию до отчёта.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="nav-item" tabindex="0">
-                    <div class="nav-icon g2">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                            <path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2z" stroke="#fff" stroke-width="2"/>
-                            <path d="M5 4v14" stroke="#fff" stroke-width="2"/>
-                            <path d="M9 8h5M9 12h5" stroke="#fff" stroke-width="1.6"/>
-                        </svg>
-                    </div>
-                    <span class="nav-name">Важные понятия</span>
-                    <div class="popover">
-                        <h4>Важные понятия</h4>
-                        <ul>
-                            <li><b>Площадка</b> — сайт, СМИ, Telegram-канал или паблик ВК, который размещает рекламу. В каталог попадают только площадки, прошедшие проверку.</li>
-                            <li><b>Агентство</b> — маркетолог или студия, которая подбирает рекламные каналы клиентам.</li>
-                            <li><b>Freemium-модель</b> — базовый доступ к каталогу бесплатен, платная подписка открывает аналитику, аудит и приоритетную поддержку.</li>
-                            <li><b>UTM-метки</b> — добавки к ссылкам, которые показывают, сколько людей перешло на сайт площадки именно через наш каталог.</li>
-                            <li><b>Статус «Проверено»</b> — мы связались с владельцем, проверили сайт на вирусы и подтвердили актуальность контактов.</li>
-                            <li><b>Кампания под ключ</b> — вы задаёте регионы, типы рекламы и бюджет, мы подбираем площадки по всей России и организуем работу с агентствами.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="nav-item" tabindex="0">
-                    <div class="nav-icon g3">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                            <path d="M4 5h16v11H9l-5 4z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
-                            <path d="M9 10h.01M12 10h.01M15 10h.01" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <span class="nav-name">Частые вопросы</span>
-                    <div class="popover">
-                        <h4>Частые вопросы</h4>
-                        <details>
-                            <summary>Как попасть в каталог?</summary>
-                            <p>Откройте премиум-страницу и заполните форму «Добавить площадку/агентство» — мы проверим данные и добавим вас бесплатно.</p>
-                        </details>
-                        <details>
-                            <summary>Сколько это стоит?</summary>
-                            <p>Базовый доступ к каталогу и контактам бесплатен навсегда. Аналитика, аудит площадок и кампании под ключ — в подписке Premium.</p>
-                        </details>
-                        <details>
-                            <summary>Что значит статус «Проверено»?</summary>
-                            <p>Мы лично связались с владельцем площадки, проверили сайт на вирусы и подтвердили актуальность контактов.</p>
-                        </details>
-                        <details>
-                            <summary>Как работает аналитика по UTM?</summary>
-                            <p>Каждая ссылка в каталоге размечена UTM-метками. Переходы с каталога видны в отчётах — вы платите только за реальную аудиторию.</p>
-                        </details>
-                    </div>
-                </div>
-
-                <div class="nav-item" tabindex="0">
-                    <div class="nav-icon g4">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                            <rect x="4" y="10" width="16" height="10" rx="2"kground: #1f1f1f; color: var(--text); }
         .premium-lock { font-size: 0.85rem; color: var(--text-dim); padding: 8px 0 12px; border-top: 1px dashed var(--border); }
         .premium-lock a { color: var(--gold); }
 
@@ -447,8 +267,7 @@
             .popover { left: 0 !important; right: auto !important; transform: none !important; width: min(420px, 92vw); }
             .brand-row { flex-direction: column; align-items: flex-start; }
             .logo-wrap { margin-left: 0; }
-            .logo-3d { transform: none; filter: none; -webkit-text-fill-color: initial; color: #dfe9f3; }
-            .logo-3d span { font-size: inherit !important; }
+            .logo-img { height: 40px; }
         }
         @media (max-width: 640px) { .grid { column-count: 2; } .search-row { flex-wrap: wrap; } }
         @media (max-width: 430px) { .grid { column-count: 1; } .nav-item { flex: 1 1 45%; } }
@@ -600,7 +419,7 @@
                 Почта: <a href="mailto:ad-catalog-ru@ya.ru">ad-catalog-ru@ya.ru</a>
             </div>
             <div class="logo-wrap">
-                <div class="logo-3d" id="logo3d">AD Catalog Russia</div>
+                <img src="adrus-logo.png" alt="AD Catalog Russia — каталог рекламных площадок и агентств России" class="logo-img">
             </div>
         </div>
 
@@ -672,31 +491,11 @@
         let allData = [];
 
         document.addEventListener('DOMContentLoaded', () => {
-            buildLogo3d();
             fetchData();
             setupEventListeners();
             setupPopovers();
             applyPremiumState();
         });
-
-        // ================= ЛОГОТИП: буквы растут слева направо =================
-        function buildLogo3d() {
-            const el = document.getElementById('logo3d');
-            const text = el.textContent.trim();
-            const letters = text.replace(/\s/g, '').length;
-            el.innerHTML = '';
-            let idx = 0;
-            for (const ch of text) {
-                if (ch === ' ') { el.appendChild(document.createTextNode(' ')); continue; }
-                const span = document.createElement('span');
-                // от 0.55em (первая буква) до 1.3em (последняя) — рост с каждой буквой
-                const size = 0.55 + (idx / Math.max(letters - 1, 1)) * 0.75;
-                span.style.fontSize = size.toFixed(3) + 'em';
-                span.textContent = ch;
-                el.appendChild(span);
-                idx++;
-            }
-        }
 
         // ================= ЗАГРУЗКА ДАННЫХ =================
         async function fetchData() {
